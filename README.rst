@@ -42,6 +42,7 @@ From source
 """""""""""
 
 ::
+    
     python setup.py install --user
 
 ---------
