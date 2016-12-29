@@ -42,7 +42,9 @@ From source
 """""""""""
 
 ::
-    
+
+    git clone https://github.com/cranndarach/wordutils.git
+    cd wordutils
     python setup.py install --user
 
 ---------
@@ -56,6 +58,5 @@ This package is licensed under the terms of the MIT license, copyright (c)
  References
 ------------
 
-.. [Luce & Pisoni, 1998] Luce, P. A., & Pisoni, D. B. (1998). Recognizing
-   spoken words: The neighborhood activation model. *Ear and Hearing, 
-   19*(1), 1.
+Luce, P. A., & Pisoni, D. B. (1998). Recognizing spoken words: The neighborhood
+  activation model. *Ear and Hearing, 19*\ (1), 1.

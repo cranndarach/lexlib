@@ -23,8 +23,7 @@ setup(name="wordutils",
       classifiers=[
           "Development Status :: 4 - Beta",
           "Intended Audience :: Science/Research",
-          "License :: OSI Approved :: MIT License",
-          "Programming Langauge :: Python :: 3"
+          "License :: OSI Approved :: MIT License"
           ],
       install_requires=["pandas"]
       )
