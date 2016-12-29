@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name="wordutils",
-      version="0.1.1",
+      version="1.0.0",
       description="Utilities for research involving words.",
       keywords=[
             "psycholinguistics",
