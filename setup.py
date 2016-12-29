@@ -1,9 +1,21 @@
 from setuptools import setup
 
 setup(name="wordutils",
-      version="1.0.0",
+      version="0.1.0",
       description="Utilities for research involving words.",
+      keywords=[
+            "psycholinguistics",
+            "research",
+            "words",
+            "language",
+            "linguistics",
+            "psychology",
+            "cognitive",
+            "cognitive science",
+            "cogsci"
+            ],
       url="https://github.com/cranndarach/wordutils",
+      download_url="https://github.com/cranndarach/wordutils/tarball/0.1.0",
       author="R. J. Steiner",
       author_email="r.steiner@uconn.edu",
       license="MIT",
@@ -13,6 +25,6 @@ setup(name="wordutils",
           "Intended Audience :: Science/Research",
           "License :: OSI Approved :: MIT License",
           "Programming Langauge :: Python :: 3"
-      ],
+          ],
       install_requires=["pandas"]
       )
