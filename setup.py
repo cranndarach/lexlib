@@ -1,6 +1,6 @@
 from setuptools import setup
 
-setup(name="wordutils",
+setup(name="lexlib",
       version="1.0.0",
       description="Utilities for research involving words.",
       keywords=[
@@ -14,12 +14,12 @@ setup(name="wordutils",
             "cognitive science",
             "cogsci"
             ],
-      url="https://github.com/cranndarach/wordutils",
-      download_url="https://github.com/cranndarach/wordutils/tarball/0.1.0",
+      url="https://github.com/cranndarach/lexlib",
+      download_url="https://github.com/cranndarach/lexlib/tarball/0.1.0",
       author="R. J. Steiner",
       author_email="r.steiner@uconn.edu",
       license="MIT",
-      packages=["wordutils"],
+      packages=["lexlib"],
       classifiers=[
           "Development Status :: 4 - Beta",
           "Intended Audience :: Science/Research",

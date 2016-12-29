@@ -1,6 +1,6 @@
-===========
- wordutils
-===========
+========
+ lexlib
+========
 
     Python package containing functions that may be useful for word research.
 
@@ -36,15 +36,15 @@ Using pip install
 
 ::
 
-    pip3 install wordutils
+    pip3 install lexlib
 
 From source
 """""""""""
 
 ::
 
-    git clone https://github.com/cranndarach/wordutils.git
-    cd wordutils
+    git clone https://github.com/cranndarach/lexlib.git
+    cd lexlib
     python setup.py install --user
 
 ---------
