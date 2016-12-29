@@ -14,7 +14,7 @@
 
 * **clusters**: Extract consonant clusters from a list of words.
 * **neighbors**: Find the phonological neighbors of a list of words using the
-  one-phoneme deletion, addition, or substitution rule ([Luce & Pisoni, 1998]_).
+  one-phoneme deletion, addition, or substitution rule (Luce & Pisoni, 1998).
 * **syllable_filter**: Extract words with the desired number of syllables
   from a list.
 * **words_only**: Retrieve only the column of interest from a data frame-like 
@@ -59,4 +59,4 @@ This package is licensed under the terms of the MIT license, copyright (c)
 ------------
 
 Luce, P. A., & Pisoni, D. B. (1998). Recognizing spoken words: The neighborhood
-  activation model. *Ear and Hearing, 19*\ (1), 1.
+activation model. *Ear and Hearing, 19*\ (1), 1.
