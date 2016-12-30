@@ -35,7 +35,7 @@ Arguments:
   tab-separated ``.txt`` file.
 * **column:** Name of the column (a *string*) containing the words in the
   database file.
-* **sep:** String separating the cells. Defaults to "\t" (tab). For a ``.csv``
+* **sep:** String separating the cells. Defaults to "``\t``" (tab). For a ``.csv``
   file, use ","
 
 ``lexlib.neighbors(words, corpus[, sep=None, debug=False])``
