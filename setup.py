@@ -1,23 +1,14 @@
 from setuptools import setup
 
 ver = "1.1.1"
+repo = "https://github.com/cranndarach/lexlib"
 setup(name="lexlib",
       version=ver,
       description="Utilities for research involving words.",
-      keywords=[
-            "psycholinguistics",\
-            "research",\
-            "words",\
-            "language",\
-            "linguistics",\
-            "psychology",\
-            "cognitive",\
-            "cognitive science",\
-            "cogsci"\
-            ],
-      url="https://github.com/cranndarach/lexlib",
-      download_url="https://github.com/cranndarach/lexlib/tarball/{}".format(
-            ver),
+      keywords="psycholinguistics research words language linguistics \
+                psychology cognitive science cogsci",
+      url=repo,
+      download_url="{}/tarball/{}".format(repo, ver),
       author="R. J. Steiner",
       author_email="r.steiner@uconn.edu",
       license="MIT",
