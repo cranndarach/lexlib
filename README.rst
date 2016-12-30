@@ -12,12 +12,12 @@
  Package Contents
 ------------------
 
-* **clusters**: Extract consonant clusters from a list of words.
-* **neighbors**: Find the phonological neighbors of a list of words using the
+* **clusters:** Extract consonant clusters from a list of words.
+* **neighbors:** Find the phonological neighbors of a list of words using the
   one-phoneme deletion, addition, or substitution rule (Luce & Pisoni, 1998).
-* **syllable_filter**: Extract words with the desired number of syllables
+* **syllable_filter:** Extract words with the desired number of syllables
   from a list.
-* **words_only**: Retrieve only the column of interest from a data frame-like 
+* **words_only:** Retrieve only the column of interest from a data frame-like
   corpus. Specifically intended for extracting words, but has flexibility.
 
 --------------

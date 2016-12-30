@@ -7,8 +7,6 @@ license: MIT License, copyright (c) 2016 R Steiner
 description: Functions to find the phonological neighbors of a list of words.
 """
 
-import json
-
 
 def neighbors(words, corpus, sep=None, debug=False):
     """

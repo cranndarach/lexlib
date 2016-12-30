@@ -1,4 +1,4 @@
-from .cluster import *
-from .get_neighbors import *
+from .clusters import *
+from .get_words import *
+from .neighbors import *
 from .syllable_filter import *
-from .words_only import *
