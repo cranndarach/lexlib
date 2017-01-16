@@ -7,8 +7,10 @@ license: MIT License, copyright (c) 2016 R Steiner
 description: Functions to find the phonological neighbors of a list of words.
 """
 
+import pandas as pd
 
-def neighbors(words, corpus, sep=None, debug=False):
+
+def neighbors(words, corpus, sep=None, **kwargs):
     """
     Iterates through the word list, comparing each word in the
     corpus to the current word in length, and passing it to the
@@ -27,23 +29,50 @@ def neighbors(words, corpus, sep=None, debug=False):
         debug -- If True, it logs the current word and the words being
         compared to it to the console. Defaults to False.
     """
+    sep = kwargs.get("sep", None)
+    debug = kwargs.get("debug", False)
+    word_col = kwargs.get("word_col", None)
+    freq_col = kwargs.get("freq_col", None)
+
+    if word_col and freq_col:
+        corpus = pd.read_csv(corpus)
+
     neighbors = {}
     for word in words:
         print(word) if debug else None
         neighbors[word] = []
         wsplit = list(word) if not sep else word.split(sep)
         wlen = len(wsplit)
-        for q in corpus:
-            print("\t", q) if debug else None
-            qsplit = list(q) if not sep else q.split(sep)
-            if len(qsplit) == wlen:
-                neighbors[word].append(q) if __check_substitution(wsplit, qsplit) else None
-            elif len(qsplit) == wlen+1:
-                neighbors[word].append(q) if __check_addition(wsplit, qsplit) else None
-            elif len(qsplit) == wlen-1:
-                neighbors[word].append(q) if __check_deletion(wsplit, qsplit) else None
-            else:
-                continue
+        if type(corpus) == list:
+            for q in corpus:
+                print("\t", q) if debug else None
+                qsplit = list(q) if not sep else q.split(sep)
+                if len(qsplit) == wlen:
+                    neighbors[word].append(q) if __check_substitution(wsplit, qsplit) else None
+                elif len(qsplit) == wlen+1:
+                    neighbors[word].append(q) if __check_addition(wsplit, qsplit) else None
+                elif len(qsplit) == wlen-1:
+                    neighbors[word].append(q) if __check_deletion(wsplit, qsplit) else None
+                else:
+                    continue
+        else:
+            for q in corpus.iterrows():
+                qsplit = list(q[word_col]) if not sep else q[word_col].split(sep)
+                if len(qsplit) == wlen:
+                    neighbors[word].append({"neighbor": q[word_col],
+                                            "frequency": q[freq_col]}) if\
+                        __check_substitution(wsplit, qsplit) else None
+                elif len(qsplit) == wlen+1:
+                    neighbors[word].append({"neighbor": q[word_col],
+                                            "frequency": q[freq_col]}) if\
+                        __check_addition(wsplit, qsplit) else None
+                elif len(qsplit) == wlen-1:
+                    neighbors[word].append({"neighbor": q[word_col],
+                                            "frequency": q[freq_col]}) if\
+                        __check_deletion(wsplit, qsplit) else None
+                else:
+                    continue
+
 
 def __check_addition(base, candidate):
     strikes = 0
@@ -62,6 +91,7 @@ def __check_addition(base, candidate):
     else:
         return True
 
+
 def __check_deletion(base, candidate):
     strikes = 0
     for position in range(len(candidate)):
@@ -74,6 +104,7 @@ def __check_deletion(base, candidate):
                     return False
     else:
         return True
+
 
 def __check_substitution(base, candidate):
     strikes = 0
