@@ -44,6 +44,7 @@ def neighbors(words, corpus, sep=None, debug=False):
                 neighbors[word].append(q) if __check_deletion(wsplit, qsplit) else None
             else:
                 continue
+    return neighbors
 
 def __check_addition(base, candidate):
     strikes = 0
