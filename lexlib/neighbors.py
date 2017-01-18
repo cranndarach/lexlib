@@ -72,6 +72,7 @@ def neighbors(words, corpus, sep=None, **kwargs):
                         __check_deletion(wsplit, qsplit) else None
                 else:
                     continue
+        return neighbors
 
 
 def __check_addition(base, candidate):
