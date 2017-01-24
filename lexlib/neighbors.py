@@ -7,6 +7,8 @@ license: MIT License, copyright (c) 2016 R Steiner
 description: Functions to find the phonological neighbors of a list of words.
 """
 
+import pandas as pd
+
 
 def neighbors(words, corpus, sep=None, debug=False):
     """
@@ -46,6 +48,7 @@ def neighbors(words, corpus, sep=None, debug=False):
                 continue
     return neighbors
 
+
 def __check_addition(base, candidate):
     strikes = 0
     for position in range(len(base)):
@@ -63,6 +66,7 @@ def __check_addition(base, candidate):
     else:
         return True
 
+
 def __check_deletion(base, candidate):
     strikes = 0
     for position in range(len(candidate)):
@@ -75,6 +79,7 @@ def __check_deletion(base, candidate):
                     return False
     else:
         return True
+
 
 def __check_substitution(base, candidate):
     strikes = 0
