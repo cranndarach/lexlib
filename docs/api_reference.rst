@@ -2,7 +2,7 @@
  lexlib API Documentation
 ##########################
 
-``lexlib.clusters(words, vowels[, sep=None])``
+``lx.clusters(words, vowels[, sep=None])``
 ==============================================
 
 Extract consonant clusters from a list of words.
@@ -18,7 +18,7 @@ Arguments:
 * **sep:** *String* that separates phonemes/letters/segments. default: ``None``
   (separate into individual characters).
 
-``lexlib.get_words(file_path, column[, sep="\t"])``
+``lx.get_words(file_path, column[, sep="\t"])``
 ===================================================
 
 Retrieve only the column of interest from a data frame-like corpus. Specifically
@@ -38,7 +38,7 @@ Arguments:
 * **sep:** String separating the cells. Defaults to "``\t``" (tab). For a ``.csv``
   file, use ","
 
-``lexlib.neighbors(words, corpus[, sep=None, debug=False])``
+``lx.neighbors(words, corpus[, sep=None, debug=False])``
 ============================================================
 
 Find the phonological neighbors of a list of words using the one-phoneme
@@ -61,11 +61,43 @@ Arguments:
   to it to the console. Defaults to ``False``, but if you tend to worry, you
   will likely want to set it to ``True``.
 
-``lexlib.syllable_filter(corpus, vowels, nsyll[, sep=None])``
+``lx.nsyll_list(words, vowels, nsyll[, sep=None])``
+==================================================
+
+Count the number of syllables in the words in a list (heuristically, using
+vowels as indicators of syllables).
+
+**Returns** a *list* of *(word, nsyll) pairs*.
+
+Arguments:
+----------
+
+* **words:** *List* of *strings* representing the word whose syllables will be counted.
+* **vowels:** *List* of the vowels used in the corpus.
+* **sep:** *String* to use as the delimiter for dividing the words in the
+  corpus into phonemes, or use default value of ``None`` to separates into
+  individual characters.
+
+``lx.nsyll_word(word, vowels, nsyll[, sep=None])``
+==================================================
+
+Count the number of syllables in a word.
+
+**Returns** an *integer* representing the number of syllables in the input word.
+
+Arguments:
+----------
+
+* **word:** *String* representing the word whose syllables will be counted.
+* **vowels:** *List* of the vowels used in the corpus.
+* **sep:** *String* to use as the delimiter for dividing the words in the
+  corpus into phonemes, or use default value of ``None`` to separates into
+  individual characters.
+
+``lx.syllable_filter(corpus, vowels, nsyll[, sep=None])``
 =============================================================
 
-Extract words with the desired number of syllables from a list, heuristically,
-using vowels as indicators of syllables.
+Extract words with the desired number of syllables from a list.
 
 **Returns** a *list* of the words meeting the given syllable criteria.
 
