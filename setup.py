@@ -1,6 +1,6 @@
 from setuptools import setup
 
-ver = "1.1.3"
+ver = "1.1.4"
 repo = "https://github.com/cranndarach/lexlib"
 setup(name="lexlib",
       version=ver,

@@ -43,36 +43,18 @@ def neighbors(words, corpus, sep=None, **kwargs):
         neighbors[word] = []
         wsplit = list(word) if not sep else word.split(sep)
         wlen = len(wsplit)
-        if type(corpus) == list:
-            for q in corpus:
-                print("\t", q) if debug else None
-                qsplit = list(q) if not sep else q.split(sep)
-                if len(qsplit) == wlen:
-                    neighbors[word].append(q) if __check_substitution(wsplit, qsplit) else None
-                elif len(qsplit) == wlen+1:
-                    neighbors[word].append(q) if __check_addition(wsplit, qsplit) else None
-                elif len(qsplit) == wlen-1:
-                    neighbors[word].append(q) if __check_deletion(wsplit, qsplit) else None
-                else:
-                    continue
-        else:
-            for q in corpus.iterrows():
-                qsplit = list(q[word_col]) if not sep else q[word_col].split(sep)
-                if len(qsplit) == wlen:
-                    neighbors[word].append({"neighbor": q[word_col],
-                                            "frequency": q[freq_col]}) if\
-                        __check_substitution(wsplit, qsplit) else None
-                elif len(qsplit) == wlen+1:
-                    neighbors[word].append({"neighbor": q[word_col],
-                                            "frequency": q[freq_col]}) if\
-                        __check_addition(wsplit, qsplit) else None
-                elif len(qsplit) == wlen-1:
-                    neighbors[word].append({"neighbor": q[word_col],
-                                            "frequency": q[freq_col]}) if\
-                        __check_deletion(wsplit, qsplit) else None
-                else:
-                    continue
-        return neighbors
+        for q in corpus:
+            print("\t", q) if debug else None
+            qsplit = list(q) if not sep else q.split(sep)
+            if len(qsplit) == wlen:
+                neighbors[word].append(q) if __check_substitution(wsplit, qsplit) else None
+            elif len(qsplit) == wlen+1:
+                neighbors[word].append(q) if __check_addition(wsplit, qsplit) else None
+            elif len(qsplit) == wlen-1:
+                neighbors[word].append(q) if __check_deletion(wsplit, qsplit) else None
+            else:
+                continue
+    return neighbors
 
 
 def __check_addition(base, candidate):
