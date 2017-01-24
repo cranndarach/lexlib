@@ -62,7 +62,7 @@ Arguments:
   will likely want to set it to ``True``.
 
 ``lx.nsyll_list(words, vowels, nsyll[, sep=None])``
-==================================================
+===================================================
 
 Count the number of syllables in the words in a list (heuristically, using
 vowels as indicators of syllables).
