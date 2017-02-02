@@ -25,6 +25,31 @@ def clusters(words, vowels, sep=None):
     return output
 
 
+def positional_clusters(words, vowels, sep=None):
+    """
+    Separate clusters into those that occur at the start of a word,
+    those that occur at the end of a word, and the rest. Returns a
+    triple of lists of strings: (initial, medial, final)
+
+    Keyword arguments:
+    words -- a list of the word forms to serve as the source for clusters
+    vowels -- a list of vowels
+    sep -- string that separates phonemes/letters/segments. default: "" (empty
+    string)
+    """
+    initial = []
+    medial = []
+    final = []
+    for word in words:
+        clusters = __segment(word, vowels, sep)
+        initial.append(clusters.pop(0))
+        if clusters:
+            final.append(clusters.pop(-1))
+        if clusters:
+            medial.extend(clusters)
+    return initial, medial, final
+
+
 def __segment(word, vowels, sep):
     output = []
     wkspc = ""
