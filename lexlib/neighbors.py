@@ -7,20 +7,18 @@ license: MIT License, copyright (c) 2016 R Steiner
 description: Functions to find the phonological neighbors of a list of words.
 """
 
-import pandas as pd
 
-
-def get_neighbor_dict(words, corpus, sep=None, debug=False):
+def get_neighbor_dict(words, **kwargs):
     """
-    Iterates through the word list, comparing each word in the
-    corpus to the current word in length, and passing it to the
-    appropriate "checker" function, or moving on if its length
-    indicates that it is not a neighbor. If the checker returns
-    True, then it appends that word to the current word's "neighbor"
-    entry.
+    Compares each word in a target list to each word in a corpus (or in the same
+    list if `corpus` is not given), and returns a dict where each target word is
+    a key, and its value is a list of its neighbors. (If you are looking for a
+    function to get neighbor pairs, see get_neighbor_pairs()).
+
+    positional arguments:
+        words -- List of words whose neighbors will be found.
 
     keyword arguments:
-        words -- List of words whose neighbors will be found.
         corpus -- List of all the words to get the neighbors from. If empty,
         defaults to `words`.
         sep -- String used to separate phonemes (if the words are phonological
@@ -28,8 +26,14 @@ def get_neighbor_dict(words, corpus, sep=None, debug=False):
         debug -- If True, it logs the current word and the words being
         compared to it to the console. Defaults to False.
     """
+    sep = kwargs.get("sep", None)
+    debug = kwargs.get("debug", None)
+    corpus = kwargs.get("corpus", words)
+    neighbors = []
     neighbors = {}
-    for word in words:
+    # for word in words:
+    while words:
+        word = words.pop()
         print(word) if debug else None
         neighbors[word] = []
         wsplit = list(word) if not sep else word.split(sep)
@@ -50,13 +54,22 @@ def get_neighbor_dict(words, corpus, sep=None, debug=False):
 
 def get_neighbor_pairs(words, **kwargs):
     """
-    (To be documented further, but briefly:)
-    Get a list of pairs of neighbors. Alternative to get_neighbor_dict(), which
-    returns a dict with an entry for each word, and a list of its neighbors.
-    This is preferable when you want to calculate over pairs themselves or get
-    statistics about neighbor relationships in a lexicon, whereas
-    get_neighbor_dict() is preferable when you want to know the neighbors for
-    specific words.
+    Compares each word in a target list to each word in a corpus (or in the same
+    list if `corpus` is not given), and returns a dict where each target word is
+    a key, and its value is a list of its neighbors. (If you are looking for a
+    function to get lists of all the neighbors for specific words, see
+    get_neighbor_pairs()).
+
+    positional arguments:
+        words -- List of words whose neighbors will be found.
+
+    keyword arguments:
+        corpus -- List of all the words to get the neighbors from. If empty,
+        defaults to `words`.
+        sep -- String used to separate phonemes (if the words are phonological
+        forms).  To separate into individual characters, set to `None` (default).
+        debug -- If True, it logs the current word and the words being
+        compared to it to the console. Defaults to False.
     """
     sep = kwargs.get("sep", None)
     debug = kwargs.get("debug", None)
@@ -65,6 +78,7 @@ def get_neighbor_pairs(words, **kwargs):
     while words:
         word = words.pop()
         print(word) if debug else None
+        # Lighten the memory load and avoid duplicates.
         if word in corpus:
             corpus.remove(word)
         wsplit = list(word) if not sep else word.split(sep)
