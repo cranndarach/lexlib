@@ -10,7 +10,7 @@ description: Functions to find the phonological neighbors of a list of words.
 import pandas as pd
 
 
-def neighbors(words, corpus, sep=None, debug=False):
+def get_neighbor_dict(words, corpus, sep=None, debug=False):
     """
     Iterates through the word list, comparing each word in the
     corpus to the current word in length, and passing it to the
@@ -20,12 +20,11 @@ def neighbors(words, corpus, sep=None, debug=False):
     entry.
 
     keyword arguments:
-        words -- Path to the file containing the words whose
-        neighbors will be found. Should contain forms only, one per line.
-        corpus -- Path to the file containing the corpus. Forms only,
-        one per line.
-        sep -- String used to separate phonemes in the phonological forms.
-        To separate into individual characters, set to None (default).
+        words -- List of words whose neighbors will be found.
+        corpus -- List of all the words to get the neighbors from. If empty,
+        defaults to `words`.
+        sep -- String used to separate phonemes (if the words are phonological
+        forms).  To separate into individual characters, set to `None` (default).
         debug -- If True, it logs the current word and the words being
         compared to it to the console. Defaults to False.
     """
@@ -47,6 +46,42 @@ def neighbors(words, corpus, sep=None, debug=False):
             else:
                 continue
     return neighbors
+
+
+def get_neighbor_pairs(words, **kwargs):
+    """
+    (To be documented further, but briefly:)
+    Get a list of pairs of neighbors. Alternative to get_neighbor_dict(), which
+    returns a dict with an entry for each word, and a list of its neighbors.
+    This is preferable when you want to calculate over pairs themselves or get
+    statistics about neighbor relationships in a lexicon, whereas
+    get_neighbor_dict() is preferable when you want to know the neighbors for
+    specific words.
+    """
+    sep = kwargs.get("sep", None)
+    debug = kwargs.get("debug", None)
+    corpus = kwargs.get("corpus", words)
+    neighbors = []
+    while words:
+        word = words.pop()
+        print(word) if debug else None
+        if word in corpus:
+            corpus.remove(word)
+        wsplit = list(word) if not sep else word.split(sep)
+        wlen = len(wsplit)
+        for q in corpus:
+            print("\t", q) if debug else None
+            qsplit = list(q) if not sep else q.split(sep)
+            if len(qsplit) == wlen:
+                neighbors.append((word, q)) if __check_substitution(wsplit, qsplit) else None
+            elif len(qsplit) == wlen+1:
+                neighbors.append((word, q)) if __check_addition(wsplit, qsplit) else None
+            elif len(qsplit) == wlen-1:
+                neighbors.append((word, q) if __check_deletion(wsplit, qsplit) else None
+            else:
+                continue
+    return neighbors
+
 
 
 def __check_addition(base, candidate):
