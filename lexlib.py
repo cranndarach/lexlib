@@ -8,6 +8,7 @@ description: Set of utilities for research involving words.
 """
 
 import csv
+import warnings
 
 
 #######
@@ -308,3 +309,40 @@ def __is_desired_nsyll(word, nsyll):
     """
     return nsyll_word(word, vowels, sep) in nsyll
 
+
+#############
+# Utilities #
+#############
+
+# deprecated = {
+#     "get_neighbors": {
+#         "alternative": get_neighbor_dict(),
+#         "note": "Or, see the new function `get_neighbor_pairs()`."
+#         },
+#     "filter_words": {"alternative": filter_by_nsyll()}
+#     }
+
+
+def deprecation_decorator(func):
+    # func_name = func.__name__
+    original_func = self.__name__
+    # info = deprecated[func_name]
+    # alt = info.get("alternative", "")
+    # if not alt:
+    #     # raise if the function is missing and no alternative is specified
+    #     raise NameError("name '{}' is not defined".format(func_name))
+    # note = info.get("note", "")
+    alt_message = "Please use '{}' instead".format(func.__name__)
+    msg = "'{}' is deprecated. {}".format(original_func, alt_message)
+
+    def wrapper(*args, **kwargs):
+        warnings.warn(msg, DeprecationWarning)
+        return func(*args, **kwargs)
+    return wrapper
+
+# why are decorators weirdly confusing
+# @deprecation_decorator
+# def get_neighbors(*args, **kwargs):
+#     pass
+get_neighbors = deprecation_decorator(get_neighbor_dict)
+filter_words = deprecation_decorator(filter_by_nsyll)
