@@ -1,28 +1,29 @@
 #!/usr/bin/env python3
 
 """
-module: words_only
-author: R Steiner
-license: MIT license, copyright (c) 2016 R Steiner
-description: Function for retrieving only the specified column
-from a corpus.
+module: get_words.py
+author: R. Steiner
+license: MIT license, copyright (c) 2016, 2017 R. Steiner
+description: Function for retrieving only the specified column from a
+spreadsheet-shaped corpus.
 """
 
-import pandas as pd
+import csv
 
 
-def get_words(file_path, column, sep="\t"):
+def get_words(file_path, column_name, delimiter=",", **fmtparams):
     """
     Returns a list containing only the specified column.
-    get_words(file_path, column, sep="\t")
 
-    Arguments:
+    arguments:
     file_path -- path to the file containing the corpus (a CSV or tab-separated
     text file, etc.).
-    column -- the name of the column in the given file that contains the words.
-    sep -- the string separating the cells. Defaults to "\t" (tab).
+    column_name -- the name of the column in the given file that contains the words.
+    delimiter -- the string separating the cells in the database. Default: ","
+    **fmtparams -- any additional formatting arguments for the built-in
+    `csv.reader` function.
     """
-    frame = pd.read_csv(file_path, sep)
-    word_series = frame[column]
-    words = word_series.tolist()
+    with open(file_path, "r") as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=delimiter, **fmtparams)
+        words = [row[column_name] for row in reader]
     return words

@@ -1,36 +1,39 @@
 #!/usr/bin/env python3
 
 """
-module: get_neighbor.py
-author: R Steiner
+module: neighbors.py
+author: R. Steiner
 license: MIT License, copyright (c) 2016 R Steiner
 description: Functions to find the phonological neighbors of a list of words.
 """
 
-import pandas as pd
 
-
-def neighbors(words, corpus, sep=None, debug=False):
+def get_neighbor_dict(words, **kwargs):
     """
-    Iterates through the word list, comparing each word in the
-    corpus to the current word in length, and passing it to the
-    appropriate "checker" function, or moving on if its length
-    indicates that it is not a neighbor. If the checker returns
-    True, then it appends that word to the current word's "neighbor"
-    entry.
+    Compares each word in a target list to each word in a corpus (or in the same
+    list if `corpus` is not given), and returns a dict where each target word is
+    a key, and its value is a list of its neighbors. (If you are looking for a
+    function to get neighbor pairs, see get_neighbor_pairs()).
+
+    positional arguments:
+        words -- List of words whose neighbors will be found.
 
     keyword arguments:
-        words -- Path to the file containing the words whose
-        neighbors will be found. Should contain forms only, one per line.
-        corpus -- Path to the file containing the corpus. Forms only,
-        one per line.
-        sep -- String used to separate phonemes in the phonological forms.
-        To separate into individual characters, set to None (default).
+        corpus -- List of all the words to get the neighbors from. If empty,
+        defaults to `words`.
+        sep -- String used to separate phonemes (if the words are phonological
+        forms).  To separate into individual characters, set to `None` (default).
         debug -- If True, it logs the current word and the words being
         compared to it to the console. Defaults to False.
     """
+    sep = kwargs.get("sep", None)
+    debug = kwargs.get("debug", None)
+    corpus = kwargs.get("corpus", words)
+    neighbors = []
     neighbors = {}
-    for word in words:
+    # for word in words:
+    while words:
+        word = words.pop()
         print(word) if debug else None
         neighbors[word] = []
         wsplit = list(word) if not sep else word.split(sep)
@@ -47,6 +50,78 @@ def neighbors(words, corpus, sep=None, debug=False):
             else:
                 continue
     return neighbors
+
+
+def get_neighbor_pairs(words, **kwargs):
+    """
+    Compares each word in a target list to each word in a corpus (or in the same
+    list if `corpus` is not given), and returns a dict where each target word is
+    a key, and its value is a list of its neighbors. (If you are looking for a
+    function to get lists of all the neighbors for specific words, see
+    get_neighbor_pairs()).
+
+    positional arguments:
+        words -- List of words whose neighbors will be found.
+
+    keyword arguments:
+        corpus -- List of all the words to get the neighbors from. If empty,
+        defaults to `words`.
+        sep -- String used to separate phonemes (if the words are phonological
+        forms).  To separate into individual characters, set to `None` (default).
+        debug -- If True, it logs the current word and the words being
+        compared to it to the console. Defaults to False.
+    """
+    sep = kwargs.get("sep", None)
+    debug = kwargs.get("debug", None)
+    corpus = kwargs.get("corpus", words)
+    neighbors = []
+    while words:
+        word = words.pop()
+        print(word) if debug else None
+        # Lighten the memory load and avoid duplicates.
+        if word in corpus:
+            corpus.remove(word)
+        wsplit = list(word) if not sep else word.split(sep)
+        wlen = len(wsplit)
+        for q in corpus:
+            print("\t", q) if debug else None
+            qsplit = list(q) if not sep else q.split(sep)
+            if len(qsplit) == wlen:
+                neighbors.append((word, q)) if __check_substitution(wsplit, qsplit) else None
+            elif len(qsplit) == wlen+1:
+                neighbors.append((word, q)) if __check_addition(wsplit, qsplit) else None
+            elif len(qsplit) == wlen-1:
+                neighbors.append((word, q)) if __check_deletion(wsplit, qsplit) else None
+            else:
+                continue
+    return neighbors
+
+
+def get_neighbor_types(neighbor_dict):
+    """
+    Takes a dict of neighbors (where a key is a "target" word and its value is a
+    list of all of its neighbors) and returns a list of (word1, word2,
+    relationship) triples, where `relationship` is one of "deletion,"
+    "addition," "substitution," or "unknown".
+
+    arguments:
+        neighbor_dict -- a dict whose keys are target words, and their values are
+        a list of their neighbors (e.g., the output of get_neighbor_dict()).
+    """
+    types = []
+    targets = neighbor_dict.keys()
+    while targets:
+        current = targets.pop()
+        for neighbor in neighbor_dict[current]:
+            if len(current) == len(neighbor): # if they are the same length, the change was a substitution
+                types.append((current, neighbor, "substitution"))
+            elif len(current) > len(neighbor): # if the target is longer than the neighbor, the change was a deletion
+                types.append((current, neighbor, "deletion"))
+            elif len(current) < len(neighbor): # if the target is shorter than the neighbor, the change was an addition
+                types.append((current, neighbor, "addition"))
+            else: # just to be sure
+                types.append((current, neighbor, "unknown"))
+    return types
 
 
 def __check_addition(base, candidate):
