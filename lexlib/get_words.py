@@ -21,7 +21,7 @@ def get_words(file_path, column_name, delimiter=",", **fmtparams):
     column_name -- the name of the column in the given file that contains the words.
     delimiter -- the string separating the cells in the database. Default: ","
     **fmtparams -- any additional formatting arguments for the built-in
-    `csv.reader` function.
+    `csv.DictReader` function.
     """
     with open(file_path, "r") as csvfile:
         reader = csv.DictReader(csvfile, delimiter=delimiter, **fmtparams)

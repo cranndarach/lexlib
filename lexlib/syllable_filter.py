@@ -3,7 +3,7 @@
 """
 module: syllables.py
 author: R. Steiner
-license: MIT, copyright (c) 2016, 2017 R Steiner
+license: MIT, copyright (c) 2016, 2017 R. Steiner
 description: Functions for working with syllables: currently counting
 and filtering a corpus by number of syllables.
 """

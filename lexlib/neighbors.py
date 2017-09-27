@@ -3,7 +3,7 @@
 """
 module: neighbors.py
 author: R. Steiner
-license: MIT License, copyright (c) 2016 R Steiner
+license: MIT License, copyright (c) 2016, 2017 R Steiner
 description: Functions to find the phonological neighbors of a list of words.
 """
 
