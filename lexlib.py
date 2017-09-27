@@ -71,10 +71,6 @@ def __segment(word, vowels, sep):
     else:
         output.append(wkspc) if wkspc != "" else None
     return output
-from .clusters import *
-from .get_words import *
-from .neighbors import *
-from .syllable_filter import *
 
 
 #############
@@ -298,11 +294,11 @@ def filter_by_nsyll(corpus, vowels, nsyll, sep=None):
     words in the corpus. default: None (separate into individual characters)
     """
     nsyll = [nsyll] if type(nsyll) == int else nsyll
-    match = list(filter(lambda w: __is_desired_nsyll(w, nsyll), corpus))
+    match = list(filter(lambda w: __is_desired_nsyll(w, vowels, sep, nsyll), corpus))
     return match
 
 
-def __is_desired_nsyll(word, nsyll):
+def __is_desired_nsyll(word, vowels, sep, nsyll):
     """
     Where nsyll is a list of desired syllable lengths. Return True if the word's
     syllable count is in the list of desired lengths; else, return False.
@@ -324,25 +320,11 @@ def __is_desired_nsyll(word, nsyll):
 
 
 def deprecation_decorator(func):
-    # func_name = func.__name__
-    original_func = self.__name__
-    # info = deprecated[func_name]
-    # alt = info.get("alternative", "")
-    # if not alt:
-    #     # raise if the function is missing and no alternative is specified
-    #     raise NameError("name '{}' is not defined".format(func_name))
-    # note = info.get("note", "")
-    alt_message = "Please use '{}' instead".format(func.__name__)
-    msg = "'{}' is deprecated. {}".format(original_func, alt_message)
-
     def wrapper(*args, **kwargs):
+        msg = "Please use '{}' instead".format(func.__name__)
         warnings.warn(msg, DeprecationWarning)
         return func(*args, **kwargs)
     return wrapper
 
-# why are decorators weirdly confusing
-# @deprecation_decorator
-# def get_neighbors(*args, **kwargs):
-#     pass
 get_neighbors = deprecation_decorator(get_neighbor_dict)
 filter_words = deprecation_decorator(filter_by_nsyll)
