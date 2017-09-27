@@ -1,6 +1,6 @@
 from setuptools import setup
 
-ver = "1.2.0"
+ver = "2.0.0"
 repo = "https://github.com/cranndarach/lexlib"
 setup(name="lexlib",
       version=ver,
@@ -17,6 +17,5 @@ setup(name="lexlib",
           "Development Status :: 4 - Beta",
           "Intended Audience :: Science/Research",
           "License :: OSI Approved :: MIT License"
-          ],
-      install_requires=["pandas"]
+          ]
       )
