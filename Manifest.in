@@ -1,0 +1,10 @@
+# Docs
+include docs/_build/html/index.html
+include docs/_build/html/lexlib.html
+include docs/_build/html/genindex.html
+include docs/_build/html/modules.html
+include docs/_build/text/lexlib.txt
+
+# Misc
+include LICENSE
+include CHANGELOG.md

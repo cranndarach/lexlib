@@ -1,0 +1,12 @@
+Welcome to lexlib’s documentation!
+**********************************
+
+
+Indices and tables
+******************
+
+* Index
+
+* Module Index
+
+* Search Page

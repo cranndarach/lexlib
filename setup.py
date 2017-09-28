@@ -12,7 +12,6 @@ setup(name="lexlib",
       author="R. J. Steiner",
       author_email="r.steiner@uconn.edu",
       license="MIT",
-      packages=["lexlib"],
       classifiers=[
           "Development Status :: 4 - Beta",
           "Intended Audience :: Science/Research",
