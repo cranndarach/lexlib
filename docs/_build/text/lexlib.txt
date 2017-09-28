@@ -1,0 +1,101 @@
+lexlib module
+*************
+
+   module: lexlib
+   author: R. Steiner
+   license: MIT License copyright (c) 2016, 2017 R. Steiner
+   description: Set of utilities for research involving words.
+
+lexlib.get_words(file_path, column_name, delimiter=', ', **fmtparams)
+
+   Return a list containing only the items from the *column_name*
+   column in the *delimiter*-separated file found at *file_path*. Also
+   takes any of *csv.DictReader*’s *fmtparams*.
+
+lexlib.clusters(words, vowels, sep=None)
+
+   Separates a list of *words* into clusters. Clusters are defined as
+   sequences of characters that do not contain any of the characters
+   in the list of *vowels*.
+
+   If *sep* is defined, it will be used as the delimiter string (for
+   example, with *sep=”.”*, the word “a.bc.de” will be treated as the
+   three-character sequence *[“a”, “bc”, “de”]*).
+
+lexlib.get_neighbor_dict(words, **kwargs)
+
+   Compare each word in a list of *words* to each word in a *corpus*
+   word list (or in the same list if *corpus* is not given), and
+   return a dict where each target word is a key, and its value is a
+   list of its neighbors. (If you are looking for a function to get
+   neighbor pairs, see *get_neighbor_pairs()*).
+
+   keyword arguments:
+      *corpus* – List of all the words to get the neighbors from. If
+      empty, defaults to *words*.
+
+      *sep* – String used to separate phonemes (if the words are
+      phonological forms). To separate into individual characters, set
+      to *None* (default).
+
+      *debug* – If True, it logs the current word and the words being
+      compared to it to the console. Defaults to False.
+
+lexlib.get_neighbor_pairs(words, **kwargs)
+
+   Compare each word in a list of *words* to each word in a *corpus*
+   word list (or in the same list if *corpus* is not given), and
+   return a list of *(word, neighbor)* pairs. (If you are looking for
+   a function to get lists of all the neighbors for specific words,
+   see *get_neighbor_pairs()*).
+
+   keyword arguments:
+      *corpus* – List of all the words to get the neighbors from. If
+      empty, defaults to *words*.
+
+      *sep* – String used to separate phonemes (if the words are
+      phonological forms).  To separate into individual characters,
+      set to *None* (default).
+
+      *debug* – If True, it logs the current word and the words being
+      compared to it to the console. Defaults to False.
+
+lexlib.get_neighbor_types(neighbor_dict)
+
+   Given a *neighbor_dict* (where a key is a “target” word and its
+   value is a list of all of its neighbors), return a list of *(word1,
+   word2, relationship)* triples, where *relationship* is one of
+   “deletion,” “addition,” “substitution,” or “unknown”.
+
+lexlib.nsyll_word(word, vowels, sep=None)
+
+   Count the number of syllables in a *word*, determined by the number
+   of characters from the *vowels* list found in that word.
+
+   If *sep* is defined, it will be used as the delimiter string (for
+   example, with *sep=”.”*, the word “a.bc.de” will be treated as the
+   three-character sequence *[“a”, “bc”, “de”]*).
+
+lexlib.nsyll_list(words, vowels, sep=None)
+
+   Count the number of syllables in each word in a *words* list,
+   determined by the number of characters from the *vowels* list found
+   in that word. Return a list of *(word, nsyll)* pairs.
+
+   If *sep* is defined, it will be used as the delimiter string (for
+   example, with *sep=”.”*, the word “a.bc.de” will be treated as the
+   three-character sequence *[“a”, “bc”, “de”]*).
+
+lexlib.filter_by_nsyll(words, vowels, nsyll, sep=None)
+
+   Given a list of *words*, return a list containing only the words
+   with the desired number of syllables, determined by the number of
+   characters from the *vowels* list found in that word.
+
+   The number of syllables, *nsyll* can be either an integer or a list
+   of integers. If it is a list, the returned list will contain words
+   of any syllable length included in *nsyll*.
+
+   If *sep* is defined, it will be used as the delimiter string (for
+   example, with *sep=”.”*, the word “a.bc.de” will be treated as the
+   three-character sequence *[“a”, “bc”, “de”]*).
