@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 
 """
-module: lexlib
-author: R. Steiner
-license: MIT License copyright (c) 2016, 2017 R. Steiner
-description: Set of utilities for research involving words.
+|  module: lexlib
+|  author: R. Steiner
+|  license: MIT License copyright (c) 2016, 2017 R. Steiner
+|  description: Set of utilities for research involving words.
 """
 
 import csv
 import warnings
 
-__all__ = ["get_words", "clusters", "get_neighbor_dict",
-           "get_neighbor_pairs", "get_neighbors", "nsyll_word", "nsyll_list",
+__all__ = ["get_words", "clusters", "get_neighbor_dict", "get_neighbor_pairs",
+           "get_neighbor_types", "get_neighbors", "nsyll_word", "nsyll_list",
            "filter_by_nsyll", "filter_words"]
 
 
@@ -22,15 +22,9 @@ __all__ = ["get_words", "clusters", "get_neighbor_dict",
 
 def get_words(file_path, column_name, delimiter=",", **fmtparams):
     """
-    Returns a list containing only the specified column.
-
-    arguments:
-    file_path -- path to the file containing the corpus (a CSV or tab-separated
-    text file, etc.).
-    column_name -- the name of the column in the given file that contains the words.
-    delimiter -- the string separating the cells in the database. Default: ","
-    **fmtparams -- any additional formatting arguments for the built-in
-    `csv.DictReader` function.
+    Return a list containing only the items from the *column_name* column in
+    the *delimiter*-separated file found at *file_path*. Also takes any
+    of `csv.DictReader`'s *fmtparams*.
     """
     with open(file_path, "r") as csvfile:
         reader = csv.DictReader(csvfile, delimiter=delimiter, **fmtparams)
@@ -45,14 +39,13 @@ def get_words(file_path, column_name, delimiter=",", **fmtparams):
 
 def clusters(words, vowels, sep=None):
     """
-    Separates a list of words into clusters, defined as sequences of
-    characters that do not contain a vowel.
+    Separates a list of *words* into clusters. Clusters are defined as sequences
+    of characters that do not contain any of the characters in the list of
+    *vowels*.
 
-    Keyword arguments:
-    words -- a list of the word forms to serve as the source for clusters
-    vowels -- a list of vowels
-    sep -- string that separates phonemes/letters/segments. default: "" (empty
-    string)
+    If *sep* is defined, it will be used as the delimiter string (for example,
+    with `sep="."`, the word "a.bc.de" will be treated as the three-character
+    sequence `["a", "bc", "de"]`).
     """
     output = []
     for word in words:
@@ -84,20 +77,19 @@ def __segment(word, vowels, sep):
 
 def get_neighbor_dict(words, **kwargs):
     """
-    Compares each word in a target list to each word in a corpus (or in the same
-    list if `corpus` is not given), and returns a dict where each target word is
-    a key, and its value is a list of its neighbors. (If you are looking for a
-    function to get neighbor pairs, see get_neighbor_pairs()).
-
-    positional arguments:
-        words -- List of words whose neighbors will be found.
+    Compare each word in a list of *words* to each word in a *corpus* word list
+    (or in the same list if *corpus* is not given), and return a dict where
+    each target word is a key, and its value is a list of its neighbors. (If you
+    are looking for a function to get neighbor pairs, see `get_neighbor_pairs()`).
 
     keyword arguments:
-        corpus -- List of all the words to get the neighbors from. If empty,
+        *corpus* -- List of all the words to get the neighbors from. If empty,
         defaults to `words`.
-        sep -- String used to separate phonemes (if the words are phonological
-        forms).  To separate into individual characters, set to `None` (default).
-        debug -- If True, it logs the current word and the words being
+
+        *sep* -- String used to separate phonemes (if the words are phonological
+        forms). To separate into individual characters, set to `None` (default).
+
+        *debug* -- If True, it logs the current word and the words being
         compared to it to the console. Defaults to False.
     """
     sep = kwargs.get("sep", None)
@@ -128,21 +120,19 @@ def get_neighbor_dict(words, **kwargs):
 
 def get_neighbor_pairs(words, **kwargs):
     """
-    Compares each word in a target list to each word in a corpus (or in the same
-    list if `corpus` is not given), and returns a dict where each target word is
-    a key, and its value is a list of its neighbors. (If you are looking for a
-    function to get lists of all the neighbors for specific words, see
-    get_neighbor_pairs()).
-
-    positional arguments:
-        words -- List of words whose neighbors will be found.
+    Compare each word in a list of *words* to each word in a *corpus* word list
+    (or in the same list if *corpus* is not given), and return a list of `(word,
+    neighbor)` pairs. (If you are looking for a function to get lists of all
+    the neighbors for specific words, see `get_neighbor_pairs()`).
 
     keyword arguments:
-        corpus -- List of all the words to get the neighbors from. If empty,
+        *corpus* -- List of all the words to get the neighbors from. If empty,
         defaults to `words`.
-        sep -- String used to separate phonemes (if the words are phonological
+
+        *sep* -- String used to separate phonemes (if the words are phonological
         forms).  To separate into individual characters, set to `None` (default).
-        debug -- If True, it logs the current word and the words being
+
+        *debug* -- If True, it logs the current word and the words being
         compared to it to the console. Defaults to False.
     """
     sep = kwargs.get("sep", None)
@@ -173,14 +163,10 @@ def get_neighbor_pairs(words, **kwargs):
 
 def get_neighbor_types(neighbor_dict):
     """
-    Takes a dict of neighbors (where a key is a "target" word and its value is a
-    list of all of its neighbors) and returns a list of (word1, word2,
-    relationship) triples, where `relationship` is one of "deletion,"
+    Given a *neighbor_dict* (where a key is a "target" word and its value is a
+    list of all of its neighbors), return a list of `(word1, word2, relationship)`
+    triples, where `relationship` is one of "deletion,"
     "addition," "substitution," or "unknown".
-
-    arguments:
-        neighbor_dict -- a dict whose keys are target words, and their values are
-        a list of their neighbors (e.g., the output of get_neighbor_dict()).
     """
     types = []
     targets = neighbor_dict.keys()
@@ -250,13 +236,12 @@ def __check_substitution(base, candidate):
 
 def nsyll_word(word, vowels, sep=None):
     """
-    Returns the number of syllables (vowels) in a word.
+    Count the number of syllables in a *word*, determined by the number of
+    characters from the *vowels* list found in that word.
 
-    Arguments:
-    word -- the word to be analyzed
-    vowels -- a list of vowels used in the word list's alphabet.
-    sep -- string to use as the delimiter for separating phonemes in the
-    words in the list. default: None (separate into individual characters)
+    If *sep* is defined, it will be used as the delimiter string (for example,
+    with `sep="."`, the word "a.bc.de" will be treated as the three-character
+    sequence `["a", "bc", "de"]`).
     """
     counter = 0
     # This actually makes it safe to use '' as the delimiter, because that will
@@ -269,14 +254,13 @@ def nsyll_word(word, vowels, sep=None):
 
 def nsyll_list(words, vowels, sep=None):
     """
-    Counts the number of syllables in each word for a list of words. Returns a
-    list of (word, nsyll) pairs.
+    Count the number of syllables in each word in a *words* list, determined by
+    the number of characters from the *vowels* list found in that word. Return a
+    list of `(word, nsyll)` pairs.
 
-    Arguments:
-    words -- a list of words whose syllables will be counted.
-    vowels -- a list of vowels used in the word list's alphabet.
-    sep -- string to use as the delimiter for separating phonemes in the
-    words in the list. default: None (separate into individual characters)
+    If *sep* is defined, it will be used as the delimiter string (for example,
+    with `sep="."`, the word "a.bc.de" will be treated as the three-character
+    sequence `["a", "bc", "de"]`).
     """
     output = []
     for w in words:
@@ -285,20 +269,22 @@ def nsyll_list(words, vowels, sep=None):
     return output
 
 
-def filter_by_nsyll(corpus, vowels, nsyll, sep=None):
+def filter_by_nsyll(words, vowels, nsyll, sep=None):
     """
-    Returns a list of the words with the desired number of syllables.
+    Given a list of *words*, return a list containing only the words with the
+    desired number of syllables, determined by the number of characters from the
+    *vowels* list found in that word.
 
-    Arguments:
-    corpus -- list of words to filter.
-    vowels -- a list of the vowels used in the corpus.
-    nsyll -- an integer or list of integers containing the number of
-    syllables desired.
-    sep -- string to use as the delimiter for separating phonemes in the
-    words in the corpus. default: None (separate into individual characters)
+    The number of syllables, *nsyll* can be
+    either an integer or a list of integers. If it is a list, the returned list
+    will contain words of any syllable length included in *nsyll*.
+
+    If *sep* is defined, it will be used as the delimiter string (for example,
+    with `sep="."`, the word "a.bc.de" will be treated as the three-character
+    sequence `["a", "bc", "de"]`).
     """
     nsyll = [nsyll] if type(nsyll) == int else nsyll
-    match = list(filter(lambda w: __is_desired_nsyll(w, vowels, sep, nsyll), corpus))
+    match = list(filter(lambda w: __is_desired_nsyll(w, vowels, sep, nsyll), words))
     return match
 
 
@@ -313,14 +299,6 @@ def __is_desired_nsyll(word, vowels, sep, nsyll):
 #############
 # Utilities #
 #############
-
-# deprecated = {
-#     "get_neighbors": {
-#         "alternative": get_neighbor_dict(),
-#         "note": "Or, see the new function `get_neighbor_pairs()`."
-#         },
-#     "filter_words": {"alternative": filter_by_nsyll()}
-#     }
 
 
 def deprecation_decorator(func):
