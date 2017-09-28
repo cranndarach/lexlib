@@ -10,6 +10,10 @@ description: Set of utilities for research involving words.
 import csv
 import warnings
 
+__all__ = ["get_words", "clusters", "get_neighbor_dict",
+           "get_neighbor_pairs", "get_neighbors", "nsyll_word", "nsyll_list",
+           "filter_by_nsyll", "filter_words"]
+
 
 #######
 # I/O #
