@@ -11,28 +11,26 @@
     :target: https://anaconda.org/cranndarach/lexlib
 
 .. note:: This project is a work in progress. New functions may be added at
-   any point.
+   any point. See `CHANGELOG.md`_ for important changes.
 
-------------------
- Package Contents
-------------------
+.. _CHANGELOG.md: https://github.com/cranndarach/lexlib/blob/master/CHANGELOG.md
+
+--------
+ Topics
+--------
 
 * **clusters:** Extract consonant clusters from a list of words.
-* **neighbors:** Find the phonological neighbors of a list of words using the
-  one-phoneme deletion, addition, or substitution rule (Luce & Pisoni, 1998).
-* **nsyll_word** and **nsyll_list:** Get the syllable count for individual
-  words or a list of words.
-* **syllable_filter:** Extract words with the desired number of syllables
-  from a list.
-* **get_words:** Retrieve only the column of interest from a data frame-like
-  corpus. Specifically intended for extracting words, but has flexibility.
+* **neighbors:** Find the phonological neighbors for words using the
+  one-phoneme deletion, addition, or substitution rule (Luce & Pisoni, 1998),
+  or find what relationship makes pairs of words neighbors.
+* **syllables:** Get the syllable count for individual words or a list of
+  words, or filter lists of words by number of syllables.
 
 --------------
  Requirements
 --------------
 
-* Python 3 (developed with 3.5)
-* pandas (developed with 0.18.1)
+* Python 3
 
 --------------
  Installation
@@ -76,9 +74,9 @@ In a terminal (remember to update the path):
 
 ::
 
-    cd path/to/downloaded/lexlib-M.m.P.tar.gz
-    tar -xzvf lexlib-M.m.P.tar.gz
-    cd lexlib-M.m.P/
+    cd path/to/downloaded/lexlib-{M.m.P}.tar.gz
+    tar -xzvf lexlib-{M.m.P}.tar.gz
+    cd lexlib-{M.m.P}/
     # using pip
     pip install
     # or using setuptools
@@ -98,14 +96,14 @@ To import the package to use in your project
 For documentation on specific functions, see the `docs/` directory or the
 `HTML version`_ or enter `help(lx.function_name)` into your interpreter.
 
-.. _HTML version: http://pythonhosted.org/lexlib
+.. _HTML version: http://lexlib.readthedocs.io
 
 ---------
  License
 ---------
 
 This package is licensed under the terms of the MIT license, copyright (c)
-2016 R. J. Steiner.
+2016-2017 R. Steiner.
 
 ------------
  References
