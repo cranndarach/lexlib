@@ -9,4 +9,4 @@
     without specific interest in any individual words.
 * No longer uses `pandas`, instead uses `csv`, which is in the standard library. **This changes the arguments of `get_words()` slightly:** `sep` is now
   `delimiter`, and the default value is now "," (was "`\t`"). Also allows for the use of any `csv.DictReader` formatting parameters.
-* `filter_words()` is not `filter_by_nsyll()`, for improved clarity. **`filter_words()` is deprecated and should be removed in the next minor release.**
+* `filter_words()` is now `filter_by_nsyll()`, for improved clarity. **`filter_words()` is deprecated and should be removed in the next minor release.**
