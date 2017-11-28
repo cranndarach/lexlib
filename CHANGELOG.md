@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.1
+
+* Adds `get_neighbor_positions()`, which determines the position at which a substitution neighbor relationship is formed.
+
 ## 2.0
 
 * Adds `get_neighbor_types()`, which determines the type of neighbor relationship (deletion, addition, or substitution) for sets of neighbors.

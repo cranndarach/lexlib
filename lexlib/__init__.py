@@ -11,8 +11,8 @@ import csv
 import warnings
 
 __all__ = ["get_words", "clusters", "get_neighbor_dict", "get_neighbor_pairs",
-           "get_neighbor_types", "get_neighbors", "nsyll_word", "nsyll_list",
-           "filter_by_nsyll", "filter_words"]
+           "get_neighbor_positions", "get_neighbor_types", "get_neighbors",
+           "nsyll_word", "nsyll_list", "filter_by_nsyll", "filter_words"]
 
 
 #######
@@ -161,6 +161,24 @@ def get_neighbor_pairs(words, **kwargs):
     return neighbors
 
 
+def get_neighbor_positions(neighbor_pairs):
+    """
+    Given a list of `(word1, word2)` *neighbor_pairs*, return a list of
+    `(word1, word2, position)` triples, where `position` is the position in the
+    words where the neighbor relationship is formed. Note that this can only
+    be calculated for pairs of substitution neighbors. If the words differ in
+    length, `position` will be `-1`.
+
+    Example:
+        ```
+        >>> neighbor_pairs = [("cat", "cap"), ("cat", "cut"), ("cat", "cast")]
+        >>> get_neighbor_positions(neighbor_pairs)
+        [("cat", "cap", 3), ("cat", "cut", 2), ("cat", "cast", -1)]
+        ```
+    """
+    return [__get_position(neighbors) for neighbors in neighbor_pairs]
+
+
 def get_neighbor_types(neighbor_dict):
     """
     Given a *neighbor_dict* (where a key is a "target" word and its value is a
@@ -227,6 +245,17 @@ def __check_substitution(base, candidate):
                 return False
     else:
         return True
+
+
+def __get_position(neighbors):
+    first, second = neighbors
+    if len(first) != len(second):
+        return (first, second, -1)
+    for pos in range(len(first)):
+        if first[pos] != second[pos]:
+            return (first, second, pos+1)
+    else:
+        return (first, second, 0)
 
 
 #############

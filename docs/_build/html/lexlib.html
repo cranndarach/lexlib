@@ -104,6 +104,24 @@ compared to it to the console. Defaults to False.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="lexlib.get_neighbor_positions">
+<code class="descclassname">lexlib.</code><code class="descname">get_neighbor_positions</code><span class="sig-paren">(</span><em>neighbor_pairs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib.html#get_neighbor_positions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.get_neighbor_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of <cite>(word1, word2)</cite> <em>neighbor_pairs</em>, return a list of
+<cite>(word1, word2, position)</cite> triples, where <cite>position</cite> is the position in the
+words where the neighbor relationship is formed. Note that this can only
+be calculated for pairs of substitution neighbors. If the words differ in
+length, <cite>position</cite> will be <cite>-1</cite>.</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><code class="docutils literal"><span class="pre">`</span>
+<span class="pre">&gt;&gt;&gt;</span> <span class="pre">neighbor_pairs</span> <span class="pre">=</span> <span class="pre">[(&quot;cat&quot;,</span> <span class="pre">&quot;cap&quot;),</span> <span class="pre">(&quot;cat&quot;,</span> <span class="pre">&quot;cut&quot;),</span> <span class="pre">(&quot;cat&quot;,</span> <span class="pre">&quot;cast&quot;)]</span>
+<span class="pre">&gt;&gt;&gt;</span> <span class="pre">get_neighbor_positions(neighbor_pairs)</span>
+<span class="pre">[(&quot;cat&quot;,</span> <span class="pre">&quot;cap&quot;,</span> <span class="pre">3),</span> <span class="pre">(&quot;cat&quot;,</span> <span class="pre">&quot;cut&quot;,</span> <span class="pre">2),</span> <span class="pre">(&quot;cat&quot;,</span> <span class="pre">&quot;cast&quot;,</span> <span class="pre">-1)]</span>
+<span class="pre">`</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="lexlib.get_neighbor_types">
 <code class="descclassname">lexlib.</code><code class="descname">get_neighbor_types</code><span class="sig-paren">(</span><em>neighbor_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib.html#get_neighbor_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.get_neighbor_types" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a <em>neighbor_dict</em> (where a key is a “target” word and its value is a
