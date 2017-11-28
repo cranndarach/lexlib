@@ -5,4 +5,3 @@ lexlib
    :maxdepth: 4
 
    lexlib
-   setup

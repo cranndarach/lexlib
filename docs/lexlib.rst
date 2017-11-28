@@ -1,6 +1,9 @@
-lexlib module
-=============
+lexlib package
+==============
+
+Module contents
+---------------
 
 .. automodule:: lexlib
     :members:
-    :show-inheritance:
+    :undoc-members:
