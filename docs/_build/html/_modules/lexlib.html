@@ -52,8 +52,8 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;get_words&quot;</span><span class="p">,</span> <span class="s2">&quot;clusters&quot;</span><span class="p">,</span> <span class="s2">&quot;get_neighbor_dict&quot;</span><span class="p">,</span> <span class="s2">&quot;get_neighbor_pairs&quot;</span><span class="p">,</span>
-           <span class="s2">&quot;get_neighbor_types&quot;</span><span class="p">,</span> <span class="s2">&quot;get_neighbors&quot;</span><span class="p">,</span> <span class="s2">&quot;nsyll_word&quot;</span><span class="p">,</span> <span class="s2">&quot;nsyll_list&quot;</span><span class="p">,</span>
-           <span class="s2">&quot;filter_by_nsyll&quot;</span><span class="p">,</span> <span class="s2">&quot;filter_words&quot;</span><span class="p">]</span>
+           <span class="s2">&quot;get_neighbor_positions&quot;</span><span class="p">,</span> <span class="s2">&quot;get_neighbor_types&quot;</span><span class="p">,</span> <span class="s2">&quot;get_neighbors&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;nsyll_word&quot;</span><span class="p">,</span> <span class="s2">&quot;nsyll_list&quot;</span><span class="p">,</span> <span class="s2">&quot;filter_by_nsyll&quot;</span><span class="p">,</span> <span class="s2">&quot;filter_words&quot;</span><span class="p">]</span>
 
 
 <span class="c1">#######</span>
@@ -202,6 +202,24 @@
     <span class="k">return</span> <span class="n">neighbors</span></div>
 
 
+<div class="viewcode-block" id="get_neighbor_positions"><a class="viewcode-back" href="../lexlib.html#lexlib.get_neighbor_positions">[docs]</a><span class="k">def</span> <span class="nf">get_neighbor_positions</span><span class="p">(</span><span class="n">neighbor_pairs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a list of `(word1, word2)` *neighbor_pairs*, return a list of</span>
+<span class="sd">    `(word1, word2, position)` triples, where `position` is the position in the</span>
+<span class="sd">    words where the neighbor relationship is formed. Note that this can only</span>
+<span class="sd">    be calculated for pairs of substitution neighbors. If the words differ in</span>
+<span class="sd">    length, `position` will be `-1`.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        ```</span>
+<span class="sd">        &gt;&gt;&gt; neighbor_pairs = [(&quot;cat&quot;, &quot;cap&quot;), (&quot;cat&quot;, &quot;cut&quot;), (&quot;cat&quot;, &quot;cast&quot;)]</span>
+<span class="sd">        &gt;&gt;&gt; get_neighbor_positions(neighbor_pairs)</span>
+<span class="sd">        [(&quot;cat&quot;, &quot;cap&quot;, 3), (&quot;cat&quot;, &quot;cut&quot;, 2), (&quot;cat&quot;, &quot;cast&quot;, -1)]</span>
+<span class="sd">        ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">__get_position</span><span class="p">(</span><span class="n">neighbors</span><span class="p">)</span> <span class="k">for</span> <span class="n">neighbors</span> <span class="ow">in</span> <span class="n">neighbor_pairs</span><span class="p">]</span></div>
+
+
 <div class="viewcode-block" id="get_neighbor_types"><a class="viewcode-back" href="../lexlib.html#lexlib.get_neighbor_types">[docs]</a><span class="k">def</span> <span class="nf">get_neighbor_types</span><span class="p">(</span><span class="n">neighbor_dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a *neighbor_dict* (where a key is a &quot;target&quot; word and its value is a</span>
@@ -268,6 +286,17 @@
                 <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">__get_position</span><span class="p">(</span><span class="n">neighbors</span><span class="p">):</span>
+    <span class="n">first</span><span class="p">,</span> <span class="n">second</span> <span class="o">=</span> <span class="n">neighbors</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">second</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">first</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">!=</span> <span class="n">second</span><span class="p">[</span><span class="n">pos</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
 
 <span class="c1">#############</span>
