@@ -10,9 +10,10 @@
 import csv
 import warnings
 
-__all__ = ["get_words", "clusters", "get_neighbor_dict", "get_neighbor_pairs",
-           "get_neighbor_positions", "get_neighbor_types", "get_neighbors",
-           "nsyll_word", "nsyll_list", "filter_by_nsyll", "filter_words"]
+__all__ = ["check_neighbors", "get_words", "clusters", "get_neighbor_dict",
+           "get_neighbor_pairs", "get_neighbor_positions",
+           "get_neighbor_types", "get_neighbors", "nsyll_word", "nsyll_list",
+           "filter_by_nsyll", "filter_words"]
 
 
 #######
@@ -95,27 +96,49 @@ def get_neighbor_dict(words, **kwargs):
     sep = kwargs.get("sep", None)
     debug = kwargs.get("debug", None)
     corpus = kwargs.get("corpus", words)
-    neighbors = []
     neighbors = {}
     # for word in words:
     while words:
         word = words.pop()
         print(word) if debug else None
         neighbors[word] = []
-        wsplit = list(word) if not sep else word.split(sep)
-        wlen = len(wsplit)
+        # wsplit = list(word) if not sep else word.split(sep)
+        # wlen = len(wsplit)
         for q in corpus:
             print("\t", q) if debug else None
-            qsplit = list(q) if not sep else q.split(sep)
-            if len(qsplit) == wlen:
-                neighbors[word].append(q) if __check_substitution(wsplit, qsplit) else None
-            elif len(qsplit) == wlen+1:
-                neighbors[word].append(q) if __check_addition(wsplit, qsplit) else None
-            elif len(qsplit) == wlen-1:
-                neighbors[word].append(q) if __check_deletion(wsplit, qsplit) else None
+            if check_neighbors(word, q, sep=sep):
+                neighbors[word].append(q)
             else:
                 continue
+            # qsplit = list(q) if not sep else q.split(sep)
+            # if len(qsplit) == wlen:
+            #     neighbors[word].append(q) if __check_substitution(wsplit, qsplit) else None
+            # elif len(qsplit) == wlen+1:
+            #     neighbors[word].append(q) if __check_addition(wsplit, qsplit) else None
+            # elif len(qsplit) == wlen-1:
+            #     neighbors[word].append(q) if __check_deletion(wsplit, qsplit) else None
+            # else:
+            #     continue
     return neighbors
+
+
+def check_neighbors(a, b, **kwargs):
+    sep = kwargs.get("sep", None)
+    a_split = list(a) if not sep else a.split(sep)
+    b_split = list(b) if not sep else b.split(sep)
+    a_len = len(a_split)
+    b_len = len(b_split)
+    if b_len == a_len:
+        if __check_substitution(a_split, b_split):
+            return True
+    elif b_len == a_len+1:
+        if __check_addition(a_split, b_split):
+            return True
+    elif b_len == a_len-1:
+        if __check_deletion(a_split, b_split):
+            return True
+    else:
+        return False
 
 
 def get_neighbor_pairs(words, **kwargs):

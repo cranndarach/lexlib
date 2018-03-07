@@ -3,3 +3,4 @@ conda/
 docs/_build/doctrees/
 .misc/
 *.zip
+.doctrees
