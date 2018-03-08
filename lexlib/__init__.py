@@ -10,6 +10,8 @@
 import csv
 import warnings
 
+from .neighbors import *
+
 __all__ = ["check_neighbors", "get_words", "clusters", "get_neighbor_dict",
            "get_neighbor_pairs", "get_neighbor_positions",
            "get_neighbor_types", "get_neighbors", "nsyll_word", "nsyll_list",
@@ -202,25 +204,34 @@ def get_neighbor_positions(neighbor_pairs):
     return [__get_position(neighbors) for neighbors in neighbor_pairs]
 
 
-def get_neighbor_types(neighbor_dict):
+def get_neighbor_types(neighbor_dict, sep=None):
     """
-    Given a *neighbor_dict* (where a key is a "target" word and its value is a
-    list of all of its neighbors), return a list of `(word1, word2, relationship)`
-    triples, where `relationship` is one of "deletion,"
-    "addition," "substitution," or "unknown".
+    Given a *neighbor_dict* (where a key is a "target" word and its
+    value is a list of all of its neighbors), return a list of `(word1,
+    word2, relationship)` triples, where `relationship` is one of
+    "deletion," "addition," "substitution," or "unknown".
     """
     types = []
-    targets = neighbor_dict.keys()
+    targets = list(neighbor_dict.keys())
     while targets:
         current = targets.pop()
+        if sep:
+            current = current.split(sep)
         for neighbor in neighbor_dict[current]:
-            if len(current) == len(neighbor): # if they are the same length, the change was a substitution
+            if sep:
+                neighbor = neighbor.split(sep)
+            # If they are the same length, the change was a substitution.
+            if len(current) == len(neighbor):
                 types.append((current, neighbor, "substitution"))
-            elif len(current) > len(neighbor): # if the target is longer than the neighbor, the change was a deletion
+            # If the target is longer than the neighbor, the change was
+            # a deletion.
+            elif len(current) > len(neighbor):
                 types.append((current, neighbor, "deletion"))
-            elif len(current) < len(neighbor): # if the target is shorter than the neighbor, the change was an addition
+            # If the target is shorter than the neighbor, the change
+            # was an addition.
+            elif len(current) < len(neighbor):
                 types.append((current, neighbor, "addition"))
-            else: # just to be sure
+            else:
                 types.append((current, neighbor, "unknown"))
     return types
 
