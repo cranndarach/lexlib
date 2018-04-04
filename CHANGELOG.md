@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.2 (in development)
+
+* Adds `check_neighbors()`, which checks whether two words are neighbors. Reduces redundancy in neighbor-getting functions, and allows for boolean comparison
+  of two words.
+* Fixes bug where lists provided as arguments were emptied. Now uses `list.copy()`.
+
 ## 2.1
 
 * Adds `get_neighbor_positions()`, which determines the position at which a substitution neighbor relationship is formed.
