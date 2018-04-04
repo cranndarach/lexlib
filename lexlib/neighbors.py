@@ -24,9 +24,10 @@ def get_neighbor_dict(words, **kwargs):
         *debug* -- If True, it logs the current word and the words being
         compared to it to the console. Defaults to False.
     """
+    words = words.copy()
     sep = kwargs.get("sep", None)
     debug = kwargs.get("debug", None)
-    corpus = kwargs.get("corpus", words)
+    corpus = kwargs.get("corpus", words).copy()
     neighbors = {}
     while words:
         word = words.pop()
@@ -79,9 +80,10 @@ def get_neighbor_pairs(words, **kwargs):
         *debug* -- If True, it logs the current word and the words being
         compared to it to the console. Defaults to False.
     """
+    words = words.copy()
     sep = kwargs.get("sep", None)
     debug = kwargs.get("debug", None)
-    corpus = kwargs.get("corpus", words)
+    corpus = kwargs.get("corpus", words).copy()
     neighbors = []
     while words:
         word = words.pop()
@@ -105,7 +107,7 @@ def get_neighbor_pairs(words, **kwargs):
     return neighbors
 
 
-def get_neighbor_positions(neighbor_pairs):
+def get_neighbor_positions(neighbor_pairs, sep=None):
     """
     Given a list of `(word1, word2)` *neighbor_pairs*, return a list of
     `(word1, word2, position)` triples, where `position` is the position
@@ -120,7 +122,7 @@ def get_neighbor_positions(neighbor_pairs):
         [("cat", "cap", 3), ("cat", "cut", 2), ("cat", "cast", -1)]
         ```
     """
-    return [__get_position(neighbors) for neighbors in neighbor_pairs]
+    return [__get_position(neighbors, sep=None) for neighbors in neighbor_pairs]
 
 
 def get_neighbor_types(neighbor_dict, sep=None):
@@ -131,27 +133,31 @@ def get_neighbor_types(neighbor_dict, sep=None):
     "deletion," "addition," "substitution," or "unknown".
     """
     types = []
-    targets = neighbor_dict.keys()
+    targets = list(neighbor_dict.keys())
     while targets:
         current = targets.pop()
+        # In case it gets split, use this as the key.
+        current_key = current
         if sep:
             current = current.split(sep)
-        for neighbor in neighbor_dict[current]:
+        for neighbor in neighbor_dict[current_key]:
+            # Misnomer, just to add to list.
+            neighbor_key = neighbor
             if sep:
                 neighbor = neighbor.split(sep)
             # If they are the same length, the change was a substitution.
             if len(current) == len(neighbor):
-                types.append((current, neighbor, "substitution"))
+                types.append((current_key, neighbor_key, "substitution"))
             # If the target is longer than the neighbor, the change was
             # a deletion.
             elif len(current) > len(neighbor):
-                types.append((current, neighbor, "deletion"))
+                types.append((current_key, neighbor_key, "deletion"))
             # If the target is shorter than the neighbor, the change
             # was an addition.
             elif len(current) < len(neighbor):
-                types.append((current, neighbor, "addition"))
+                types.append((current_key, neighbor_key, "addition"))
             else:
-                types.append((current, neighbor, "unknown"))
+                types.append((current_key, neighbor_key, "unknown"))
     return types
 
 
@@ -167,36 +173,6 @@ def __check_addition(base, candidate):
             # then they are not neighbors, so return False.
             else:
                 strikes += 1
-def get_neighbor_types(neighbor_dict, sep=None):
-    """
-    Given a *neighbor_dict* (where a key is a "target" word and its
-    value is a list of all of its neighbors), return a list of `(word1,
-    word2, relationship)` triples, where `relationship` is one of
-    "deletion," "addition," "substitution," or "unknown".
-    """
-    types = []
-    targets = neighbor_dict.keys()
-    while targets:
-        current = targets.pop()
-        if sep:
-            current = current.split(sep)
-        for neighbor in neighbor_dict[current]:
-            if sep:
-                neighbor = neighbor.split(sep)
-            # If they are the same length, the change was a substitution.
-            if len(current) == len(neighbor):
-                types.append((current, neighbor, "substitution"))
-            # If the target is longer than the neighbor, the change was
-            # a deletion.
-            elif len(current) > len(neighbor):
-                types.append((current, neighbor, "deletion"))
-            # If the target is shorter than the neighbor, the change
-            # was an addition.
-            elif len(current) < len(neighbor):
-                types.append((current, neighbor, "addition"))
-            else:
-                types.append((current, neighbor, "unknown"))
-    return types
                 if strikes >= 2:
                     return False
     else:
@@ -230,8 +206,11 @@ def __check_substitution(base, candidate):
         return True
 
 
-def __get_position(neighbors):
+def __get_position(neighbors, sep=None):
     first, second = neighbors
+    if sep:
+        first = first.split(sep)
+        second = second.split(sep)
     if len(first) != len(second):
         return (first, second, -1)
     for pos in range(len(first)):
