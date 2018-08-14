@@ -2,7 +2,7 @@
 
 """
 |  module: clusters
-|  copyright (c) 2016-2018 R. Steiner
+|  copyright: 2016-2018 R. Steiner
 |  license: MIT License
 |  description: Functions for dealing with consonant clusters.
 """
