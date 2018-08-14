@@ -7,71 +7,16 @@
 |  description: Set of utilities for research involving words.
 """
 
-import csv
 import warnings
 
+from .clusters import *
+from .io import *
 from .neighbors import *
 
-__all__ = ["check_neighbors", "get_words", "clusters", "get_neighbor_dict",
-           "get_neighbor_pairs", "get_neighbor_positions",
-           "get_neighbor_types", "get_neighbors", "nsyll_word", "nsyll_list",
+__all__ = ["check_neighbors", "get_words", "clusters", "clusters_word",
+           "get_neighbor_dict", "get_neighbor_pairs", "get_neighbor_positions",
+           "get_neighbor_types", "get_neighbors", "nsyll_list", "nsyll_word",
            "filter_by_nsyll", "filter_words"]
-
-
-#######
-# I/O #
-#######
-
-
-def get_words(file_path, column_name, delimiter=",", **fmtparams):
-    """
-    Return a list containing only the items from the *column_name* column in
-    the *delimiter*-separated file found at *file_path*. Also takes any
-    of `csv.DictReader`'s *fmtparams*.
-    """
-    with open(file_path, "r") as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=delimiter, **fmtparams)
-        words = [row[column_name] for row in reader]
-    return words
-
-
-############
-# Clusters #
-############
-
-
-def clusters(words, vowels, sep=None):
-    """
-    Separates a list of *words* into clusters. Clusters are defined as sequences
-    of characters that do not contain any of the characters in the list of
-    *vowels*.
-
-    If *sep* is defined, it will be used as the delimiter string (for example,
-    with `sep="."`, the word "a.bc.de" will be treated as the three-character
-    sequence `["a", "bc", "de"]`).
-    """
-    output = []
-    for word in words:
-        output.extend(__segment(word, vowels, sep))
-    return output
-
-
-def __segment(word, vowels, sep):
-    output = []
-    wkspc = ""
-    word = list(word) if not sep else word.split(sep)
-    # word = word.split(sep)
-    for char in word:
-        char = char.lower()
-        if char in vowels:
-            output.append(wkspc) if wkspc != "" else None
-            wkspc = ""
-        else:
-            wkspc += char
-    else:
-        output.append(wkspc) if wkspc != "" else None
-    return output
-
 
 #############
 # Syllables #
