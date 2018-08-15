@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lexlib.syllables &mdash; lexlib 2.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> lexlib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lexlib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>lexlib.syllables</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lexlib.syllables</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">|  module: syllables</span>
+<span class="sd">|  copyright: 2016-2018 R. Steiner</span>
+<span class="sd">|  license: MIT License</span>
+<span class="sd">|  description: Functions involving syllables.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="nsyll_word"><a class="viewcode-back" href="../../index.html#lexlib.syllables.nsyll_word">[docs]</a><span class="k">def</span> <span class="nf">nsyll_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count the number of syllables in a *word*, determined by the number</span>
+<span class="sd">    of characters from the *vowels* list found in that word.</span>
+
+<span class="sd">    If *sep* is defined, it will be used as the delimiter string (for</span>
+<span class="sd">    example, with `sep=&quot;.&quot;`, the word &quot;a.bc.de&quot; will be treated as the</span>
+<span class="sd">    three-character sequence `[&quot;a&quot;, &quot;bc&quot;, &quot;de&quot;]`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># This actually makes it safe to use &#39;&#39; as the delimiter, because that</span>
+    <span class="c1"># will make `if not sep` return True.</span>
+    <span class="n">phonemes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sep</span> <span class="k">else</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">phoneme</span> <span class="ow">in</span> <span class="n">phonemes</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">phoneme</span> <span class="ow">in</span> <span class="n">vowels</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">counter</span></div>
+
+
+<div class="viewcode-block" id="nsyll_list"><a class="viewcode-back" href="../../index.html#lexlib.syllables.nsyll_list">[docs]</a><span class="k">def</span> <span class="nf">nsyll_list</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count the number of syllables in each word in a *words* list,</span>
+<span class="sd">    determined by the number of characters from the *vowels* list found</span>
+<span class="sd">    in that word. Return a list of `(word, nsyll)` pairs.</span>
+
+<span class="sd">    If *sep* is defined, it will be used as the delimiter string (for</span>
+<span class="sd">    example, with `sep=&quot;.&quot;`, the word &quot;a.bc.de&quot; will be treated as the</span>
+<span class="sd">    three-character sequence `[&quot;a&quot;, &quot;bc&quot;, &quot;de&quot;]`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">nsyll_word</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="filter_by_nsyll"><a class="viewcode-back" href="../../index.html#lexlib.syllables.filter_by_nsyll">[docs]</a><span class="k">def</span> <span class="nf">filter_by_nsyll</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">nsyll</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a list of *words*, return a list containing only the words</span>
+<span class="sd">    with the desired number of syllables, determined by the number of</span>
+<span class="sd">    characters from the *vowels* list found in that word.</span>
+
+<span class="sd">    The number of syllables, *nsyll* can be either an integer or a list</span>
+<span class="sd">    of integers. If it is a list, the returned list will contain words</span>
+<span class="sd">    of any syllable length included in *nsyll*.</span>
+
+<span class="sd">    If *sep* is defined, it will be used as the delimiter string (for</span>
+<span class="sd">    example, with `sep=&quot;.&quot;`, the word &quot;a.bc.de&quot; will be treated as the</span>
+<span class="sd">    three-character sequence `[&quot;a&quot;, &quot;bc&quot;, &quot;de&quot;]`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nsyll</span> <span class="o">=</span> <span class="p">[</span><span class="n">nsyll</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">nsyll</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span> <span class="k">else</span> <span class="n">nsyll</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">__is_desired_nsyll</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">nsyll</span><span class="p">),</span>
+                        <span class="n">words</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">match</span></div>
+
+
+<span class="k">def</span> <span class="nf">__is_desired_nsyll</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">nsyll</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Where nsyll is a list of desired syllable lengths. Return True if</span>
+<span class="sd">    the word&#39;s syllable count is in the list of desired lengths; else,</span>
+<span class="sd">    return False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">nsyll_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nsyll</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, R. Steiner.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'2.2.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

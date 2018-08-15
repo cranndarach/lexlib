@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to lexlib’s documentation! &mdash; lexlib 2.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> lexlib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to lexlib’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">lexlib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to lexlib’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-lexlib-s-documentation">
+<h1>Welcome to lexlib’s documentation!<a class="headerlink" href="#welcome-to-lexlib-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-lexlib.clusters"></span><div class="line-block">
+<div class="line">module: clusters</div>
+<div class="line">copyright: 2016-2018 R. Steiner</div>
+<div class="line">license: MIT License</div>
+<div class="line">description: Functions for dealing with consonant clusters.</div>
+</div>
+<dl class="function">
+<dt id="lexlib.clusters.clusters">
+<code class="descclassname">lexlib.clusters.</code><code class="descname">clusters</code><span class="sig-paren">(</span><em>words</em>, <em>vowels</em>, <em>sep=None</em>, <em>unique=False</em>, <em>case_sensitive=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/clusters.html#clusters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.clusters.clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separates a list of <em>words</em> into clusters. Clusters are defined as
+sequences of characters that do not contain any of the characters
+in the list of <em>vowels</em>.</p>
+<p>If <em>sep</em> is defined, it will be used as the delimiter string (for
+example, with <cite>sep=”.”</cite>, the word “a.bc.de” will be treated as the
+three-character sequence <cite>[“a”, “bc”, “de”]</cite>).</p>
+<p>If <em>unique</em> is <cite>True</cite>, returns each cluster only once. If <em>unique</em>
+is <cite>False</cite> (the default), returns each cluster as many times as it
+occurs.</p>
+<p>If <em>case_sensitive</em> is <cite>True</cite> (the default), uppercase and lowercase
+characters will be treated as two different characters (e.g., “a”
+will be seen as different from “A”). If <em>case_sensitive</em> is <cite>False</cite>,
+uppercase and lowercase characters will be treated as the same
+character, and the output will be lowercase (e.g., “a” and “A” will
+both be treated as “a”).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lexlib.clusters.clusters_word">
+<code class="descclassname">lexlib.clusters.</code><code class="descname">clusters_word</code><span class="sig-paren">(</span><em>word</em>, <em>vowels</em>, <em>sep=None</em>, <em>case_sensitive=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/clusters.html#clusters_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.clusters.clusters_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separates a <em>word</em> into clusters, defined as sequences of
+characters that do not contain any of the characters in the list of
+<em>vowels</em>.</p>
+<p>If <em>sep</em> is defined, it will be used as the delimiter string (for
+example, with <cite>sep=”.”</cite>, the word “a.bc.de” will be treated as the
+three-character sequence <cite>[“a”, “bc”, “de”]</cite>).</p>
+<p>If <em>case_sensitive</em> is <cite>True</cite> (the default), uppercase and lowercase
+characters will be treated as two different characters (e.g., “a”
+will be seen as different from “A”). If <em>case_sensitive</em> is <cite>False</cite>,
+uppercase and lowercase characters will be treated as the same
+character, and the output will be lowercase (e.g., “a” and “A” will
+both be treated as “a”).</p>
+</dd></dl>
+
+<span class="target" id="module-lexlib.io"></span><div class="line-block">
+<div class="line">module: io</div>
+<div class="line">copyright: 2016-2018 R. Steiner</div>
+<div class="line">license: MIT License</div>
+<div class="line">description: Functions for reading and writing files.</div>
+</div>
+<dl class="function">
+<dt id="lexlib.io.get_words">
+<code class="descclassname">lexlib.io.</code><code class="descname">get_words</code><span class="sig-paren">(</span><em>file_path</em>, <em>column_name</em>, <em>delimiter='</em>, <em>'</em>, <em>**fmtparams</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/io.html#get_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.io.get_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list containing only the items from the <em>column_name</em> column in
+the <em>delimiter</em>-separated file found at <em>file_path</em>. Also takes any
+of <cite>csv.DictReader</cite>’s <em>fmtparams</em>.</p>
+</dd></dl>
+
+<span class="target" id="module-lexlib.neighbors"></span><p>Neighbor calculation functions for lexlib.</p>
+<dl class="function">
+<dt id="lexlib.neighbors.check_neighbors">
+<code class="descclassname">lexlib.neighbors.</code><code class="descname">check_neighbors</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>sep=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/neighbors.html#check_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.neighbors.check_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine whether two words are neighbors. Returns <cite>True</cite> if they
+are neighbors and <cite>False</cite> if they are not.</p>
+<p><em>sep</em> – String used to separate phonemes (if the words are
+phonological forms). To separate into individual characters, set to
+<cite>None</cite> (default).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lexlib.neighbors.get_neighbor_dict">
+<code class="descclassname">lexlib.neighbors.</code><code class="descname">get_neighbor_dict</code><span class="sig-paren">(</span><em>words</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/neighbors.html#get_neighbor_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.neighbors.get_neighbor_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare each word in a list of <em>words</em> to each word in a <em>corpus</em>
+word list (or in the same list if <em>corpus</em> is not given), and return
+a dict where each target word is a key, and its value is a list of
+its neighbors. (If you are looking for a function to get neighbor
+pairs, see <cite>get_neighbor_pairs()</cite>).</p>
+<dl class="docutils">
+<dt>keyword arguments:</dt>
+<dd><p class="first"><em>corpus</em> – List of all the words to get the neighbors from. If
+empty, defaults to <em>words</em>.</p>
+<p><em>sep</em> – String used to separate phonemes (if the words are
+phonological forms). To separate into individual characters,
+set to <cite>None</cite> (default).</p>
+<p class="last"><em>debug</em> – If <cite>True</cite>, it prints the current word and the words
+being compared to it to the console. Defaults to <cite>False</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lexlib.neighbors.get_neighbor_pairs">
+<code class="descclassname">lexlib.neighbors.</code><code class="descname">get_neighbor_pairs</code><span class="sig-paren">(</span><em>words</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/neighbors.html#get_neighbor_pairs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.neighbors.get_neighbor_pairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare each word in a list of <em>words</em> to each word in a <em>corpus</em>
+word list (or in the same list if <em>corpus</em> is not given), and return
+a list of <cite>(word, neighbor)</cite> pairs. (If you are looking for a
+function to get lists of all the neighbors for specific words, see
+<cite>get_neighbor_pairs()</cite>).</p>
+<dl class="docutils">
+<dt>keyword arguments:</dt>
+<dd><p class="first"><em>corpus</em> – List of all the words to get the neighbors from. If
+omitted, defaults to <cite>words</cite>.</p>
+<p><em>sep</em> – String used to separate phonemes (if the words are
+phonological forms). To separate into individual characters, set
+to <cite>None</cite> (default).</p>
+<p class="last"><em>debug</em> – If True, it logs the current word and the words being
+compared to it to the console. Defaults to False.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lexlib.neighbors.get_neighbor_positions">
+<code class="descclassname">lexlib.neighbors.</code><code class="descname">get_neighbor_positions</code><span class="sig-paren">(</span><em>neighbor_pairs</em>, <em>sep=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/neighbors.html#get_neighbor_positions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.neighbors.get_neighbor_positions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of <cite>(word1, word2)</cite> <em>neighbor_pairs</em>, return a list of
+<cite>(word1, word2, position)</cite> triples, where <cite>position</cite> is the position
+in the words where the neighbor relationship is formed. Note that
+this can only be calculated for pairs of substitution neighbors. If
+the words differ in length, <cite>position</cite> will be <cite>-1</cite>.</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">&gt;&gt;&gt;</span> <span class="pre">neighbor_pairs</span> <span class="pre">=</span> <span class="pre">[(&quot;cat&quot;,</span> <span class="pre">&quot;cap&quot;),</span> <span class="pre">(&quot;cat&quot;,</span> <span class="pre">&quot;cut&quot;),</span> <span class="pre">(&quot;cat&quot;,</span> <span class="pre">&quot;cast&quot;)]</span>
+<span class="pre">&gt;&gt;&gt;</span> <span class="pre">get_neighbor_positions(neighbor_pairs)</span>
+<span class="pre">[(&quot;cat&quot;,</span> <span class="pre">&quot;cap&quot;,</span> <span class="pre">3),</span> <span class="pre">(&quot;cat&quot;,</span> <span class="pre">&quot;cut&quot;,</span> <span class="pre">2),</span> <span class="pre">(&quot;cat&quot;,</span> <span class="pre">&quot;cast&quot;,</span> <span class="pre">-1)]</span>
+<span class="pre">`</span></code></dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lexlib.neighbors.get_neighbor_types">
+<code class="descclassname">lexlib.neighbors.</code><code class="descname">get_neighbor_types</code><span class="sig-paren">(</span><em>neighbor_dict</em>, <em>sep=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/neighbors.html#get_neighbor_types"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.neighbors.get_neighbor_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a <em>neighbor_dict</em> (where a key is a “target” word and its
+value is a list of all of its neighbors), return a list of <cite>(word1,
+word2, relationship)</cite> triples, where <cite>relationship</cite> is one of
+“deletion,” “addition,” “substitution,” or “unknown”.</p>
+</dd></dl>
+
+<span class="target" id="module-lexlib.syllables"></span><div class="line-block">
+<div class="line">module: syllables</div>
+<div class="line">copyright: 2016-2018 R. Steiner</div>
+<div class="line">license: MIT License</div>
+<div class="line">description: Functions involving syllables.</div>
+</div>
+<dl class="function">
+<dt id="lexlib.syllables.filter_by_nsyll">
+<code class="descclassname">lexlib.syllables.</code><code class="descname">filter_by_nsyll</code><span class="sig-paren">(</span><em>words</em>, <em>vowels</em>, <em>nsyll</em>, <em>sep=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/syllables.html#filter_by_nsyll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.syllables.filter_by_nsyll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of <em>words</em>, return a list containing only the words
+with the desired number of syllables, determined by the number of
+characters from the <em>vowels</em> list found in that word.</p>
+<p>The number of syllables, <em>nsyll</em> can be either an integer or a list
+of integers. If it is a list, the returned list will contain words
+of any syllable length included in <em>nsyll</em>.</p>
+<p>If <em>sep</em> is defined, it will be used as the delimiter string (for
+example, with <cite>sep=”.”</cite>, the word “a.bc.de” will be treated as the
+three-character sequence <cite>[“a”, “bc”, “de”]</cite>).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lexlib.syllables.nsyll_list">
+<code class="descclassname">lexlib.syllables.</code><code class="descname">nsyll_list</code><span class="sig-paren">(</span><em>words</em>, <em>vowels</em>, <em>sep=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/syllables.html#nsyll_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.syllables.nsyll_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the number of syllables in each word in a <em>words</em> list,
+determined by the number of characters from the <em>vowels</em> list found
+in that word. Return a list of <cite>(word, nsyll)</cite> pairs.</p>
+<p>If <em>sep</em> is defined, it will be used as the delimiter string (for
+example, with <cite>sep=”.”</cite>, the word “a.bc.de” will be treated as the
+three-character sequence <cite>[“a”, “bc”, “de”]</cite>).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lexlib.syllables.nsyll_word">
+<code class="descclassname">lexlib.syllables.</code><code class="descname">nsyll_word</code><span class="sig-paren">(</span><em>word</em>, <em>vowels</em>, <em>sep=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lexlib/syllables.html#nsyll_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lexlib.syllables.nsyll_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the number of syllables in a <em>word</em>, determined by the number
+of characters from the <em>vowels</em> list found in that word.</p>
+<p>If <em>sep</em> is defined, it will be used as the delimiter string (for
+example, with <cite>sep=”.”</cite>, the word “a.bc.de” will be treated as the
+three-character sequence <cite>[“a”, “bc”, “de”]</cite>).</p>
+</dd></dl>
+
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, R. Steiner.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.2.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

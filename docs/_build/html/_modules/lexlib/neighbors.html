@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lexlib.neighbors &mdash; lexlib 2.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> lexlib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lexlib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>lexlib.neighbors</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lexlib.neighbors</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Neighbor calculation functions for lexlib.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="get_neighbor_dict"><a class="viewcode-back" href="../../index.html#lexlib.neighbors.get_neighbor_dict">[docs]</a><span class="k">def</span> <span class="nf">get_neighbor_dict</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare each word in a list of *words* to each word in a *corpus*</span>
+<span class="sd">    word list (or in the same list if *corpus* is not given), and return</span>
+<span class="sd">    a dict where each target word is a key, and its value is a list of</span>
+<span class="sd">    its neighbors. (If you are looking for a function to get neighbor</span>
+<span class="sd">    pairs, see `get_neighbor_pairs()`).</span>
+
+<span class="sd">    keyword arguments:</span>
+<span class="sd">        *corpus* -- List of all the words to get the neighbors from. If</span>
+<span class="sd">        empty, defaults to *words*.</span>
+
+<span class="sd">        *sep* -- String used to separate phonemes (if the words are</span>
+<span class="sd">        phonological forms). To separate into individual characters,</span>
+<span class="sd">        set to `None` (default).</span>
+
+<span class="sd">        *debug* -- If `True`, it prints the current word and the words</span>
+<span class="sd">        being compared to it to the console. Defaults to `False`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">sep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sep&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">debug</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">corpus</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;corpus&quot;</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">neighbors</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">while</span> <span class="n">words</span><span class="p">:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">if</span> <span class="n">debug</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">w_split</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sep</span> <span class="k">else</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+        <span class="n">nbrs</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">tgt</span><span class="p">:</span> <span class="n">check_neighbors</span><span class="p">(</span><span class="n">w_split</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">sep</span><span class="p">),</span> <span class="n">corpus</span><span class="p">)</span>
+        <span class="n">neighbors</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nbrs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">neighbors</span></div>
+
+
+<div class="viewcode-block" id="check_neighbors"><a class="viewcode-back" href="../../index.html#lexlib.neighbors.check_neighbors">[docs]</a><span class="k">def</span> <span class="nf">check_neighbors</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine whether two words are neighbors. Returns `True` if they</span>
+<span class="sd">    are neighbors and `False` if they are not.</span>
+
+<span class="sd">    *sep* -- String used to separate phonemes (if the words are</span>
+<span class="sd">    phonological forms). To separate into individual characters, set to</span>
+<span class="sd">    `None` (default).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">a_split</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="n">b_split</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sep</span> <span class="k">else</span> <span class="n">b</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">sep</span><span class="p">:</span>
+        <span class="n">a_split</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+        <span class="n">b_split</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a_split</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">b_split</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">a_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a_split</span><span class="p">)</span>
+    <span class="n">b_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b_split</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">b_len</span> <span class="o">==</span> <span class="n">a_len</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">__check_substitution</span><span class="p">(</span><span class="n">a_split</span><span class="p">,</span> <span class="n">b_split</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">b_len</span> <span class="o">==</span> <span class="n">a_len</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">__check_addition</span><span class="p">(</span><span class="n">a_split</span><span class="p">,</span> <span class="n">b_split</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">b_len</span> <span class="o">==</span> <span class="n">a_len</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">__check_deletion</span><span class="p">(</span><span class="n">a_split</span><span class="p">,</span> <span class="n">b_split</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="get_neighbor_pairs"><a class="viewcode-back" href="../../index.html#lexlib.neighbors.get_neighbor_pairs">[docs]</a><span class="k">def</span> <span class="nf">get_neighbor_pairs</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare each word in a list of *words* to each word in a *corpus*</span>
+<span class="sd">    word list (or in the same list if *corpus* is not given), and return</span>
+<span class="sd">    a list of `(word, neighbor)` pairs. (If you are looking for a</span>
+<span class="sd">    function to get lists of all the neighbors for specific words, see</span>
+<span class="sd">    `get_neighbor_pairs()`).</span>
+
+<span class="sd">    keyword arguments:</span>
+<span class="sd">        *corpus* -- List of all the words to get the neighbors from. If</span>
+<span class="sd">        omitted, defaults to `words`.</span>
+
+<span class="sd">        *sep* -- String used to separate phonemes (if the words are</span>
+<span class="sd">        phonological forms). To separate into individual characters, set</span>
+<span class="sd">        to `None` (default).</span>
+
+<span class="sd">        *debug* -- If True, it logs the current word and the words being</span>
+<span class="sd">        compared to it to the console. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">words</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">sep</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sep&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">debug</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">corpus</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;corpus&quot;</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">words</span><span class="p">:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">words</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">if</span> <span class="n">debug</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="c1"># Lighten the memory load and avoid duplicates.</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">corpus</span><span class="p">:</span>
+            <span class="n">corpus</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="n">w_split</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sep</span> <span class="k">else</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+        <span class="n">nbrs</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">tgt</span><span class="p">:</span> <span class="n">check_neighbors</span><span class="p">(</span><span class="n">w_split</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">sep</span><span class="p">),</span> <span class="n">corpus</span><span class="p">)</span>
+        <span class="n">neighbors</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">word</span><span class="p">,</span> <span class="n">nbr</span><span class="p">)</span> <span class="k">for</span> <span class="n">nbr</span> <span class="ow">in</span> <span class="n">nbrs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">neighbors</span></div>
+
+
+<div class="viewcode-block" id="get_neighbor_positions"><a class="viewcode-back" href="../../index.html#lexlib.neighbors.get_neighbor_positions">[docs]</a><span class="k">def</span> <span class="nf">get_neighbor_positions</span><span class="p">(</span><span class="n">neighbor_pairs</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a list of `(word1, word2)` *neighbor_pairs*, return a list of</span>
+<span class="sd">    `(word1, word2, position)` triples, where `position` is the position</span>
+<span class="sd">    in the words where the neighbor relationship is formed. Note that</span>
+<span class="sd">    this can only be calculated for pairs of substitution neighbors. If</span>
+<span class="sd">    the words differ in length, `position` will be `-1`.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        ```</span>
+<span class="sd">        &gt;&gt;&gt; neighbor_pairs = [(&quot;cat&quot;, &quot;cap&quot;), (&quot;cat&quot;, &quot;cut&quot;), (&quot;cat&quot;, &quot;cast&quot;)]</span>
+<span class="sd">        &gt;&gt;&gt; get_neighbor_positions(neighbor_pairs)</span>
+<span class="sd">        [(&quot;cat&quot;, &quot;cap&quot;, 3), (&quot;cat&quot;, &quot;cut&quot;, 2), (&quot;cat&quot;, &quot;cast&quot;, -1)]</span>
+<span class="sd">        ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">__get_position</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">neighbors</span> <span class="ow">in</span>
+            <span class="n">neighbor_pairs</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_neighbor_types"><a class="viewcode-back" href="../../index.html#lexlib.neighbors.get_neighbor_types">[docs]</a><span class="k">def</span> <span class="nf">get_neighbor_types</span><span class="p">(</span><span class="n">neighbor_dict</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a *neighbor_dict* (where a key is a &quot;target&quot; word and its</span>
+<span class="sd">    value is a list of all of its neighbors), return a list of `(word1,</span>
+<span class="sd">    word2, relationship)` triples, where `relationship` is one of</span>
+<span class="sd">    &quot;deletion,&quot; &quot;addition,&quot; &quot;substitution,&quot; or &quot;unknown&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">neighbor_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">while</span> <span class="n">targets</span><span class="p">:</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="c1"># In case it gets split, use this as the key.</span>
+        <span class="n">current_key</span> <span class="o">=</span> <span class="n">current</span>
+        <span class="k">if</span> <span class="n">sep</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">neighbor_dict</span><span class="p">[</span><span class="n">current_key</span><span class="p">]:</span>
+            <span class="c1"># Misnomer, just to add to list.</span>
+            <span class="n">neighbor_key</span> <span class="o">=</span> <span class="n">neighbor</span>
+            <span class="k">if</span> <span class="n">sep</span><span class="p">:</span>
+                <span class="n">neighbor</span> <span class="o">=</span> <span class="n">neighbor</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+            <span class="c1"># If they are the same length, the change was a substitution.</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">current</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">neighbor</span><span class="p">):</span>
+                <span class="n">types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">current_key</span><span class="p">,</span> <span class="n">neighbor_key</span><span class="p">,</span> <span class="s2">&quot;substitution&quot;</span><span class="p">))</span>
+            <span class="c1"># If the target is longer than the neighbor, the change was</span>
+            <span class="c1"># a deletion.</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">current</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">neighbor</span><span class="p">):</span>
+                <span class="n">types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">current_key</span><span class="p">,</span> <span class="n">neighbor_key</span><span class="p">,</span> <span class="s2">&quot;deletion&quot;</span><span class="p">))</span>
+            <span class="c1"># If the target is shorter than the neighbor, the change</span>
+            <span class="c1"># was an addition.</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">current</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">neighbor</span><span class="p">):</span>
+                <span class="n">types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">current_key</span><span class="p">,</span> <span class="n">neighbor_key</span><span class="p">,</span> <span class="s2">&quot;addition&quot;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">types</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">current_key</span><span class="p">,</span> <span class="n">neighbor_key</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">types</span></div>
+
+
+<span class="k">def</span> <span class="nf">__check_addition</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">candidate</span><span class="p">):</span>
+    <span class="n">strikes</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">base</span><span class="p">)):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1"># If they match, break the while loop and try the next position.</span>
+            <span class="k">if</span> <span class="n">base</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">==</span> <span class="n">candidate</span><span class="p">[</span><span class="n">position</span><span class="o">+</span><span class="n">strikes</span><span class="p">]:</span>
+                <span class="k">break</span>
+            <span class="c1"># Otherwise, take a strike and continue on that position,</span>
+            <span class="c1"># as long as it&#39;s the first strike. If it&#39;s the second strike,</span>
+            <span class="c1"># then they are not neighbors, so return False.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">strikes</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">strikes</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">__check_deletion</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">candidate</span><span class="p">):</span>
+    <span class="n">strikes</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">candidate</span><span class="p">)):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">base</span><span class="p">[</span><span class="n">position</span><span class="o">+</span><span class="n">strikes</span><span class="p">]</span> <span class="o">==</span> <span class="n">candidate</span><span class="p">[</span><span class="n">position</span><span class="p">]:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">strikes</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">strikes</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">__check_substitution</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">candidate</span><span class="p">):</span>
+    <span class="n">strikes</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">position</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">base</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">base</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">==</span> <span class="n">candidate</span><span class="p">[</span><span class="n">position</span><span class="p">]:</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">strikes</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">strikes</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">__get_position</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">first</span><span class="p">,</span> <span class="n">second</span> <span class="o">=</span> <span class="n">neighbors</span>
+    <span class="k">if</span> <span class="n">sep</span><span class="p">:</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+        <span class="n">second</span> <span class="o">=</span> <span class="n">second</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">second</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">first</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">!=</span> <span class="n">second</span><span class="p">[</span><span class="n">pos</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2018, R. Steiner.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'2.2.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
