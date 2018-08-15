@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 """
-|  module: utilities
-|  copyright: 2016-2018 R. Steiner
-|  license: MIT License
-|  description: Set of utilities for research involving words.
+Set of utilities for research involving words.
 """
+
+# module: utilities
+# copyright: 2016-2018 R. Steiner
+# license: MIT License
 
 import warnings
 

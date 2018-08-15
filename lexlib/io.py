@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 """
-|  module: io
-|  copyright: 2016-2018 R. Steiner
-|  license: MIT License
-|  description: Functions for reading and writing files.
+Functions for reading and writing files.
 """
+
+# module: io
+# copyright: 2016-2018 R. Steiner
+# license: MIT License
 
 import csv
 

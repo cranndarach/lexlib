@@ -4,6 +4,10 @@
 Neighbor calculation functions for lexlib.
 """
 
+# module: neighbors
+# copyright: 2016-2018 R. Steiner
+# license: MIT License
+
 
 def get_neighbor_dict(words, **kwargs):
     """
@@ -115,12 +119,12 @@ def get_neighbor_positions(neighbor_pairs, sep=None):
     this can only be calculated for pairs of substitution neighbors. If
     the words differ in length, `position` will be `-1`.
 
-    Example:
-        ```
+    Example::
+
         >>> neighbor_pairs = [("cat", "cap"), ("cat", "cut"), ("cat", "cast")]
         >>> get_neighbor_positions(neighbor_pairs)
         [("cat", "cap", 3), ("cat", "cut", 2), ("cat", "cast", -1)]
-        ```
+
     """
     return [__get_position(neighbors, sep=None) for neighbors in
             neighbor_pairs]

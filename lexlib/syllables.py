@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 """
-|  module: syllables
-|  copyright: 2016-2018 R. Steiner
-|  license: MIT License
-|  description: Functions involving syllables.
+Functions for working with syllables.
 """
+
+# module: syllables
+# copyright: 2016-2018 R. Steiner
+# license: MIT License
 
 
 def nsyll_word(word, vowels, sep=None):

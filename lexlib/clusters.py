@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 """
-|  module: clusters
-|  copyright: 2016-2018 R. Steiner
-|  license: MIT License
-|  description: Functions for dealing with consonant clusters.
+Functions for dealing with consonant clusters.
 """
+
+# module: clusters
+# copyright: 2016-2018 R. Steiner
+# license: MIT License
 
 import itertools as it
 
