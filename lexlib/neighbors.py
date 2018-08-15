@@ -32,22 +32,30 @@ def get_neighbor_dict(words, **kwargs):
     while words:
         word = words.pop()
         print(word) if debug else None
-        nbrs = filter(lambda tgt: check_neighbors(word, tgt, sep=sep), corpus)
+        w_split = list(word) if not sep else word.split(sep)
+        nbrs = filter(lambda tgt: check_neighbors(w_split, tgt, sep), corpus)
         neighbors[word] = list(nbrs)
-        # neighbors[word] = []
-        # for q in corpus:
-        #     print("\t", q) if debug else None
-        #     if check_neighbors(word, q, sep=sep):
-        #         neighbors[word].append(q)
-        #     else:
-        #         continue
     return neighbors
 
 
-def check_neighbors(a, b, **kwargs):
-    sep = kwargs.get("sep", None)
-    a_split = list(a) if not sep else a.split(sep)
-    b_split = list(b) if not sep else b.split(sep)
+def check_neighbors(a, b, sep=None):
+    """
+    Determine whether two words are neighbors. Returns `True` if they
+    are neighbors and `False` if they are not.
+
+    *sep* -- String used to separate phonemes (if the words are
+    phonological forms). To separate into individual characters, set to
+    `None` (default).
+    """
+    if type(a) == list:
+        a_split = a
+        b_split = list(b) if not sep else b.split(sep)
+    elif sep:
+        a_split = a.split(sep)
+        b_split = b.split(sep)
+    else:
+        a_split = list(a)
+        b_split = list(b)
     a_len = len(a_split)
     b_len = len(b_split)
     if b_len == a_len:
