@@ -1,10 +1,7 @@
 # Docs
-include docs/_build/html/index.html
-include docs/_build/html/lexlib.html
-include docs/_build/html/genindex.html
-include docs/_build/html/modules.html
-include docs/_build/text/lexlib.txt
+include docs/*
 
 # Misc
+include README.rst
 include LICENSE
 include CHANGELOG.md
