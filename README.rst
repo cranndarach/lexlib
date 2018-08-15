@@ -21,8 +21,8 @@
 
 * Extract consonant clusters from a word or list of words.
 * Find neighbors of words.
-    * Other neighbor utilities, e.g., type of neighbor relationship, position of
-      divergence.
+* Other neighbor utilities, e.g., type of neighbor relationship, position of
+  divergence.
 * Get the syllable count for words or a list of words, or filter lists of words
   by number of syllables.
 
