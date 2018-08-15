@@ -7,7 +7,7 @@ Set of utilities for research involving words.
 # copyright: 2016-2018 R. Steiner
 # license: MIT License
 
-from .clusters import *
+from .consonant_clusters import *
 from .io import *
 from .neighbors import *
 from .syllables import *

@@ -10,17 +10,10 @@ Welcome to lexlib's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule:: lexlib.clusters
-    :members:
-
-.. automodule:: lexlib.io
-    :members:
-
-.. automodule:: lexlib.neighbors
-    :members:
-
-.. automodule:: lexlib.syllables
-    :members:
+   clusters
+   io
+   neighbors
+   syllables
 
 
 Indices and tables

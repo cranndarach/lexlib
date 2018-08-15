@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>lexlib.clusters &mdash; lexlib 2.2.0 documentation</title>
+  <title>lexlib.consonant_clusters &mdash; lexlib 2.2.0 documentation</title>
   
 
   
@@ -133,7 +133,7 @@
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
-      <li>lexlib.clusters</li>
+      <li>lexlib.consonant_clusters</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -148,7 +148,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for lexlib.clusters</h1><div class="highlight"><pre>
+  <h1>Source code for lexlib.consonant_clusters</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -162,7 +162,7 @@
 <span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="nn">it</span>
 
 
-<div class="viewcode-block" id="clusters"><a class="viewcode-back" href="../../clusters.html#lexlib.clusters.clusters">[docs]</a><span class="k">def</span> <span class="nf">clusters</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="clusters"><a class="viewcode-back" href="../../clusters.html#lexlib.consonant_clusters.clusters">[docs]</a><span class="k">def</span> <span class="nf">clusters</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Separates a list of *words* into clusters. Clusters are defined as</span>
 <span class="sd">    sequences of characters that do not contain any of the characters</span>
@@ -196,7 +196,7 @@
     <span class="k">return</span> <span class="n">output</span></div>
 
 
-<div class="viewcode-block" id="clusters_word"><a class="viewcode-back" href="../../clusters.html#lexlib.clusters.clusters_word">[docs]</a><span class="k">def</span> <span class="nf">clusters_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="clusters_word"><a class="viewcode-back" href="../../clusters.html#lexlib.consonant_clusters.clusters_word">[docs]</a><span class="k">def</span> <span class="nf">clusters_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Separates a *word* into clusters, defined as sequences of</span>
 <span class="sd">    characters that do not contain any of the characters in the list of</span>

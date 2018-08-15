@@ -80,8 +80,14 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../clusters.html">Consonant clusters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">Input and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../neighbors.html">Neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../syllables.html">Syllables</a></li>
+</ul>
+
             
           
         </div>
@@ -146,14 +152,15 @@
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">|  module: syllables</span>
-<span class="sd">|  copyright: 2016-2018 R. Steiner</span>
-<span class="sd">|  license: MIT License</span>
-<span class="sd">|  description: Functions involving syllables.</span>
+<span class="sd">Functions for working with syllables.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="c1"># module: syllables</span>
+<span class="c1"># copyright: 2016-2018 R. Steiner</span>
+<span class="c1"># license: MIT License</span>
 
-<div class="viewcode-block" id="nsyll_word"><a class="viewcode-back" href="../../index.html#lexlib.syllables.nsyll_word">[docs]</a><span class="k">def</span> <span class="nf">nsyll_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="nsyll_word"><a class="viewcode-back" href="../../syllables.html#lexlib.syllables.nsyll_word">[docs]</a><span class="k">def</span> <span class="nf">nsyll_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Count the number of syllables in a *word*, determined by the number</span>
 <span class="sd">    of characters from the *vowels* list found in that word.</span>
@@ -171,7 +178,7 @@
     <span class="k">return</span> <span class="n">counter</span></div>
 
 
-<div class="viewcode-block" id="nsyll_list"><a class="viewcode-back" href="../../index.html#lexlib.syllables.nsyll_list">[docs]</a><span class="k">def</span> <span class="nf">nsyll_list</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="nsyll_list"><a class="viewcode-back" href="../../syllables.html#lexlib.syllables.nsyll_list">[docs]</a><span class="k">def</span> <span class="nf">nsyll_list</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Count the number of syllables in each word in a *words* list,</span>
 <span class="sd">    determined by the number of characters from the *vowels* list found</span>
@@ -184,7 +191,7 @@
     <span class="k">return</span> <span class="p">[</span><span class="n">nsyll_word</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="filter_by_nsyll"><a class="viewcode-back" href="../../index.html#lexlib.syllables.filter_by_nsyll">[docs]</a><span class="k">def</span> <span class="nf">filter_by_nsyll</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">nsyll</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="filter_by_nsyll"><a class="viewcode-back" href="../../syllables.html#lexlib.syllables.filter_by_nsyll">[docs]</a><span class="k">def</span> <span class="nf">filter_by_nsyll</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">nsyll</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a list of *words*, return a list containing only the words</span>
 <span class="sd">    with the desired number of syllables, determined by the number of</span>
