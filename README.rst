@@ -2,7 +2,7 @@
  lexlib
 ========
 
-    Python package containing functions that may be useful for word research.
+    Python library for some utilities that may be useful for word research.
 
 .. image:: https://badge.fury.io/py/lexlib.svg
     :target: https://badge.fury.io/py/lexlib
@@ -15,16 +15,16 @@
 
 .. _CHANGELOG.md: https://github.com/cranndarach/lexlib/blob/master/CHANGELOG.md
 
---------
- Topics
---------
+----------
+ Features
+----------
 
-* **clusters:** Extract consonant clusters from a list of words.
-* **neighbors:** Find the phonological neighbors for words using the
-  one-phoneme deletion, addition, or substitution rule (Luce & Pisoni, 1998),
-  or find what relationship makes pairs of words neighbors.
-* **syllables:** Get the syllable count for individual words or a list of
-  words, or filter lists of words by number of syllables.
+* Extract consonant clusters from a word or list of words.
+* Find neighbors of words.
+  * Other neighbor utilities, e.g., type of neighbor relationship, position of
+    divergence.
+* Get the syllable count for words or a list of words, or filter lists of words
+  by number of syllables.
 
 --------------
  Requirements
@@ -53,20 +53,17 @@ Using conda install
 From source
 """""""""""
 
-git clone
-'''''''''
+`git clone` for the development version
+'''''''''''''''''''''''''''''''''''''''
 
 ::
 
     git clone https://github.com/cranndarach/lexlib.git
     cd lexlib
-    # using pip
     pip install
-    # or using setuptools
-    python setup.py install
 
-tarball
-'''''''
+Download a release
+''''''''''''''''''
 
 `Download the latest release <https://github.com/cranndarach/lexlib/releases>`_
 
@@ -74,13 +71,10 @@ In a terminal (remember to update the path):
 
 ::
 
-    cd path/to/downloaded/lexlib-{M.m.P}.tar.gz
-    tar -xzvf lexlib-{M.m.P}.tar.gz
-    cd lexlib-{M.m.P}/
-    # using pip
+    cd path/to/download/lexlib-x.y.z.tar.gz
+    tar -xvf lexlib-x.y.z.tar.gz
+    cd lexlib-x.y.z/
     pip install
-    # or using setuptools
-    python setup.py install
 
 -------
  Usage
@@ -93,21 +87,19 @@ To import the package to use in your project
 
     import lexlib as lx
 
-For documentation on specific functions, see the `docs/` directory or the
-`HTML version`_ or enter `help(lx.function_name)` into your interpreter.
+.. note::
 
-.. _HTML version: http://lexlib.readthedocs.io
+  All of the submodules are imported by lexlib. That means that you can call,
+  for example, `lx.get_neighbor_pairs()` instead of `lx.neighbors.get_neighbor_pairs()`.
+
+For documentation on specific functions, see the `docs/` directory or the
+`online documentation`_ or enter `help(lx.function_name)` into your interpreter.
+
+.. _online documentation: http://lexlib.readthedocs.io
 
 ---------
  License
 ---------
 
 This package is licensed under the terms of the MIT license, copyright (c)
-2016-2017 R. Steiner.
-
-------------
- References
-------------
-
-Luce, P. A., & Pisoni, D. B. (1998). Recognizing spoken words: The neighborhood
-activation model. *Ear and Hearing, 19*\ (1), 1.
+2016-2018 R. Steiner.

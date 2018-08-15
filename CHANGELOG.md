@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.2 (in development)
+## 2.2
 
 * Adds `check_neighbors()`, which checks whether two words are neighbors. Reduces redundant code in neighbor-getting functions, and allows for boolean
   comparison of two words.
