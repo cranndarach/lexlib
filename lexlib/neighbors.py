@@ -14,15 +14,15 @@ def get_neighbor_dict(words, **kwargs):
     pairs, see `get_neighbor_pairs()`).
 
     keyword arguments:
-        *corpus* -- List of all the words to get the neighbors from.
-        If empty, defaults to `words`.
+        *corpus* -- List of all the words to get the neighbors from. If
+        empty, defaults to *words*.
 
         *sep* -- String used to separate phonemes (if the words are
         phonological forms). To separate into individual characters,
         set to `None` (default).
 
-        *debug* -- If True, it logs the current word and the words being
-        compared to it to the console. Defaults to False.
+        *debug* -- If `True`, it prints the current word and the words
+        being compared to it to the console. Defaults to `False`.
     """
     words = words.copy()
     sep = kwargs.get("sep", None)
@@ -73,17 +73,19 @@ def check_neighbors(a, b, sep=None):
 
 def get_neighbor_pairs(words, **kwargs):
     """
-    Compare each word in a list of *words* to each word in a *corpus* word list
-    (or in the same list if *corpus* is not given), and return a list of `(word,
-    neighbor)` pairs. (If you are looking for a function to get lists of all
-    the neighbors for specific words, see `get_neighbor_pairs()`).
+    Compare each word in a list of *words* to each word in a *corpus*
+    word list (or in the same list if *corpus* is not given), and return
+    a list of `(word, neighbor)` pairs. (If you are looking for a
+    function to get lists of all the neighbors for specific words, see
+    `get_neighbor_pairs()`).
 
     keyword arguments:
-        *corpus* -- List of all the words to get the neighbors from. If empty,
-        defaults to `words`.
+        *corpus* -- List of all the words to get the neighbors from. If
+        omitted, defaults to `words`.
 
-        *sep* -- String used to separate phonemes (if the words are phonological
-        forms).  To separate into individual characters, set to `None` (default).
+        *sep* -- String used to separate phonemes (if the words are
+        phonological forms). To separate into individual characters, set
+        to `None` (default).
 
         *debug* -- If True, it logs the current word and the words being
         compared to it to the console. Defaults to False.
@@ -99,19 +101,9 @@ def get_neighbor_pairs(words, **kwargs):
         # Lighten the memory load and avoid duplicates.
         if word in corpus:
             corpus.remove(word)
-        wsplit = list(word) if not sep else word.split(sep)
-        wlen = len(wsplit)
-        for q in corpus:
-            print("\t", q) if debug else None
-            qsplit = list(q) if not sep else q.split(sep)
-            if len(qsplit) == wlen:
-                neighbors.append((word, q)) if __check_substitution(wsplit, qsplit) else None
-            elif len(qsplit) == wlen+1:
-                neighbors.append((word, q)) if __check_addition(wsplit, qsplit) else None
-            elif len(qsplit) == wlen-1:
-                neighbors.append((word, q)) if __check_deletion(wsplit, qsplit) else None
-            else:
-                continue
+        w_split = list(word) if not sep else word.split(sep)
+        nbrs = filter(lambda tgt: check_neighbors(w_split, tgt, sep), corpus)
+        neighbors += [(word, nbr) for nbr in nbrs]
     return neighbors
 
 
@@ -130,7 +122,8 @@ def get_neighbor_positions(neighbor_pairs, sep=None):
         [("cat", "cap", 3), ("cat", "cut", 2), ("cat", "cast", -1)]
         ```
     """
-    return [__get_position(neighbors, sep=None) for neighbors in neighbor_pairs]
+    return [__get_position(neighbors, sep=None) for neighbors in
+            neighbor_pairs]
 
 
 def get_neighbor_types(neighbor_dict, sep=None):
@@ -226,4 +219,3 @@ def __get_position(neighbors, sep=None):
             return (first, second, pos+1)
     else:
         return (first, second, 0)
-
