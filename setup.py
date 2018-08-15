@@ -12,7 +12,7 @@ setup(name="lexlib",
       version=ver,
       description="Utilities for research involving words.",
       long_description=long_description,
-      long_description_content_type="text/rst",
+      long_description_content_type="text/x-rst",
       keywords="psycholinguistics research words language linguistics \
                 psychology cognitive science cogsci",
       url=repo,
