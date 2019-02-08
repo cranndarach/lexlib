@@ -20,13 +20,13 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'lexlib'
-copyright = '2016-2018, R. Steiner'
+copyright = '2016-2019, R. Steiner'
 author = 'R. Steiner'
 
 # The short X.Y version
-version = '2.2'
+version = '3.0'
 # The full version, including alpha/beta/rc tags
-release = '2.2.0'
+release = '3.0.0'
 
 
 # -- General configuration ---------------------------------------------------
