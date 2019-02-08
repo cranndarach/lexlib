@@ -10,10 +10,9 @@ Welcome to lexlib's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   clusters
    io
    neighbors
-   syllables
+   structure
 
 
 Indices and tables

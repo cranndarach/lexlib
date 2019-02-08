@@ -1,5 +1,0 @@
-Consonant clusters
-==================
-
-.. automodule:: lexlib.consonant_clusters
-    :members:
