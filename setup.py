@@ -6,7 +6,7 @@ wd = path.abspath(path.dirname(__file__))
 with open(path.join(wd, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-ver = "2.2.2"
+ver = "3.0.0"
 repo = "https://github.com/cranndarach/lexlib"
 setup(name="lexlib",
       version=ver,
