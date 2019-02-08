@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lexlib.structure &mdash; lexlib 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> lexlib
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">Input and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../neighbors.html">Neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../structure.html">Structure</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">lexlib</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>lexlib.structure</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for lexlib.structure</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions related to the structure of words.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># module: structure</span>
+<span class="c1"># copyright: 2016-2019 R. Steiner</span>
+<span class="c1"># license: MIT License</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="nn">it</span>
+
+
+<div class="viewcode-block" id="clusters"><a class="viewcode-back" href="../../structure.html#lexlib.structure.clusters">[docs]</a><span class="k">def</span> <span class="nf">clusters</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Separates a list of *words* into clusters. Clusters are defined as</span>
+<span class="sd">    sequences of characters that do not contain any of the characters</span>
+<span class="sd">    in the list of *vowels*.</span>
+
+<span class="sd">    If *sep* is defined, it will be used as the delimiter string (for</span>
+<span class="sd">    example, with `sep=&quot;.&quot;`, the word &quot;a.bc.de&quot; will be treated as the</span>
+<span class="sd">    three-character sequence `[&quot;a&quot;, &quot;bc&quot;, &quot;de&quot;]`).</span>
+
+<span class="sd">    If *unique* is `True`, returns each cluster only once. If *unique*</span>
+<span class="sd">    is `False` (the default), returns each cluster as many times as it</span>
+<span class="sd">    occurs.</span>
+
+<span class="sd">    If *case_sensitive* is `True` (the default), uppercase and lowercase</span>
+<span class="sd">    characters will be treated as two different characters (e.g., &quot;a&quot;</span>
+<span class="sd">    will be seen as different from &quot;A&quot;). If *case_sensitive* is `False`,</span>
+<span class="sd">    uppercase and lowercase characters will be treated as the same</span>
+<span class="sd">    character, and the output will be lowercase (e.g., &quot;a&quot; and &quot;A&quot; will</span>
+<span class="sd">    both be treated as &quot;a&quot;).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">unique</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;&#39;unique&#39; must be either True or False.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">case_sensitive</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;&#39;case_sensitive&#39; must be either True or False.&quot;</span><span class="p">)</span>
+    <span class="n">clusts</span> <span class="o">=</span> <span class="p">[</span><span class="n">clusters_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+    <span class="n">flattened</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">clusts</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">unique</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">flattened</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">flattened</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="clusters_word"><a class="viewcode-back" href="../../structure.html#lexlib.structure.clusters_word">[docs]</a><span class="k">def</span> <span class="nf">clusters_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Separates a *word* into clusters, defined as sequences of</span>
+<span class="sd">    characters that do not contain any of the characters in the list of</span>
+<span class="sd">    *vowels*.</span>
+
+<span class="sd">    If *sep* is defined, it will be used as the delimiter string (for</span>
+<span class="sd">    example, with `sep=&quot;.&quot;`, the word &quot;a.bc.de&quot; will be treated as the</span>
+<span class="sd">    three-character sequence `[&quot;a&quot;, &quot;bc&quot;, &quot;de&quot;]`).</span>
+
+<span class="sd">    If *case_sensitive* is `True` (the default), uppercase and lowercase</span>
+<span class="sd">    characters will be treated as two different characters (e.g., &quot;a&quot;</span>
+<span class="sd">    will be seen as different from &quot;A&quot;). If *case_sensitive* is `False`,</span>
+<span class="sd">    uppercase and lowercase characters will be treated as the same</span>
+<span class="sd">    character, and the output will be lowercase (e.g., &quot;a&quot; and &quot;A&quot; will</span>
+<span class="sd">    both be treated as &quot;a&quot;).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">case_sensitive</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;&#39;case_sensitive&#39; must be either True or False.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">case_sensitive</span><span class="p">:</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">vowels</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vowels</span><span class="p">]</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">wkspc</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sep</span> <span class="k">else</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+        <span class="c1"># If char is a vowel and wkspc is non-empty, add cluster to list.</span>
+        <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">vowels</span> <span class="ow">and</span> <span class="n">wkspc</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">__finalize_cluster</span><span class="p">(</span><span class="n">wkspc</span><span class="p">,</span> <span class="n">sep</span><span class="p">))</span>
+            <span class="n">wkspc</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># If char is a vowel and wkspc is empty, move on.</span>
+        <span class="k">elif</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">vowels</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">wkspc</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="c1"># If char is not a vowel, add it to the working cluster.</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wkspc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">wkspc</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="n">__finalize_cluster</span><span class="p">(</span><span class="n">wkspc</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="filter_by_nsyll"><a class="viewcode-back" href="../../structure.html#lexlib.structure.filter_by_nsyll">[docs]</a><span class="k">def</span> <span class="nf">filter_by_nsyll</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">nsyll</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a list of *words*, return a list containing only the words</span>
+<span class="sd">    with the desired number of syllables, determined by the number of</span>
+<span class="sd">    characters from the *vowels* list found in that word.</span>
+
+<span class="sd">    The number of syllables, *nsyll* can be either an integer or a list</span>
+<span class="sd">    of integers. If it is a list, the returned list will contain words</span>
+<span class="sd">    of any syllable length included in *nsyll*.</span>
+
+<span class="sd">    If *sep* is defined, it will be used as the delimiter string (for</span>
+<span class="sd">    example, with `sep=&quot;.&quot;`, the word &quot;a.bc.de&quot; will be treated as the</span>
+<span class="sd">    three-character sequence `[&quot;a&quot;, &quot;bc&quot;, &quot;de&quot;]`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nsyll</span> <span class="o">=</span> <span class="p">[</span><span class="n">nsyll</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">nsyll</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span> <span class="k">else</span> <span class="n">nsyll</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">__is_desired_nsyll</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">nsyll</span><span class="p">),</span>
+                        <span class="n">words</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">match</span></div>
+
+
+<div class="viewcode-block" id="get_cv"><a class="viewcode-back" href="../../structure.html#lexlib.structure.get_cv">[docs]</a><span class="k">def</span> <span class="nf">get_cv</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the consonant (&quot;C&quot;) and vowel (&quot;V&quot;) structure of the</span>
+<span class="sd">    given word. Returns a string of the characters &quot;C&quot; and &quot;V&quot;</span>
+<span class="sd">    corresponding to the characters in the word.</span>
+
+<span class="sd">    *vowels* -- A list of the characters representing vowels.</span>
+
+<span class="sd">    *sep* -- String used to separate phonemes (if the words are</span>
+<span class="sd">    phonological forms). To separate into individual characters, set to</span>
+<span class="sd">    `None` (default).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wsplit</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sep</span> <span class="k">else</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span> <span class="k">if</span> <span class="n">char</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vowels</span> <span class="k">else</span> <span class="s2">&quot;V&quot;</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">wsplit</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nsyll_list"><a class="viewcode-back" href="../../structure.html#lexlib.structure.nsyll_list">[docs]</a><span class="k">def</span> <span class="nf">nsyll_list</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count the number of syllables in each word in a *words* list,</span>
+<span class="sd">    determined by the number of characters from the *vowels* list found</span>
+<span class="sd">    in that word. Return a list of `(word, nsyll)` pairs.</span>
+
+<span class="sd">    If *sep* is defined, it will be used as the delimiter string (for</span>
+<span class="sd">    example, with `sep=&quot;.&quot;`, the word &quot;a.bc.de&quot; will be treated as the</span>
+<span class="sd">    three-character sequence `[&quot;a&quot;, &quot;bc&quot;, &quot;de&quot;]`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">nsyll_word</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="nsyll_word"><a class="viewcode-back" href="../../structure.html#lexlib.structure.nsyll_word">[docs]</a><span class="k">def</span> <span class="nf">nsyll_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count the number of syllables in a *word*, determined by the number</span>
+<span class="sd">    of characters from the *vowels* list found in that word.</span>
+
+<span class="sd">    If *sep* is defined, it will be used as the delimiter string (for</span>
+<span class="sd">    example, with `sep=&quot;.&quot;`, the word &quot;a.bc.de&quot; will be treated as the</span>
+<span class="sd">    three-character sequence `[&quot;a&quot;, &quot;bc&quot;, &quot;de&quot;]`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># This actually makes it safe to use &#39;&#39; as the delimiter, because that</span>
+    <span class="c1"># will make `if not sep` return True.</span>
+    <span class="n">phonemes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sep</span> <span class="k">else</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">phoneme</span> <span class="ow">in</span> <span class="n">phonemes</span><span class="p">:</span>
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">phoneme</span> <span class="ow">in</span> <span class="n">vowels</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">counter</span></div>
+
+
+<span class="k">def</span> <span class="nf">__finalize_cluster</span><span class="p">(</span><span class="n">chars</span><span class="p">,</span> <span class="n">sep</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">sep</span><span class="p">:</span>
+        <span class="n">cluster</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cluster</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cluster</span>
+
+
+<span class="k">def</span> <span class="nf">__is_desired_nsyll</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">nsyll</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Where nsyll is a list of desired syllable lengths. Return True if</span>
+<span class="sd">    the word&#39;s syllable count is in the list of desired lengths; else,</span>
+<span class="sd">    return False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">nsyll_word</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span> <span class="ow">in</span> <span class="n">nsyll</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2019, R. Steiner
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
