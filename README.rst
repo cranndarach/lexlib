@@ -7,9 +7,6 @@
 .. image:: https://badge.fury.io/py/lexlib.svg
     :target: https://badge.fury.io/py/lexlib
 
-.. image:: https://anaconda.org/cranndarach/lexlib/badges/version.svg
-    :target: https://anaconda.org/cranndarach/lexlib
-
 .. note:: This project is a work in progress. New functions may be added at
    any point. See `CHANGELOG.md`_ for important changes.
 
@@ -25,6 +22,7 @@
   divergence.
 * Get the syllable count for words or a list of words, or filter lists of words
   by number of syllables.
+* Get the consonant-vowel structure of a word.
 
 --------------
  Requirements
@@ -42,13 +40,6 @@ Using pip install
 ::
 
     pip3 install lexlib
-
-Using conda install
-"""""""""""""""""""
-
-::
-
-    conda install -c cranndarach lexlib
 
 From source
 """""""""""
@@ -102,4 +93,4 @@ For documentation on specific functions, see the `docs/` directory or the
 ---------
 
 This package is licensed under the terms of the MIT license, copyright (c)
-2016-2018 R. Steiner.
+2016-2019 R. Steiner.

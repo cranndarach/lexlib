@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.0
+* Combines `syllables` and `consonant_clusters` into `structure`.
+  * It's still possible to access all functions through the package's global namespace.
+* Adds `structure.get_cv()` which finds the consonant-vowel structure of a word.
+* Removes `get_neighbors()` and `filter_words()`, which were deprecated in 2.0.
+
 ## 2.2
 
 * Adds `check_neighbors()`, which checks whether two words are neighbors. Reduces redundant code in neighbor-getting functions, and allows for boolean
