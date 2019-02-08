@@ -7,9 +7,6 @@
 .. image:: https://badge.fury.io/py/lexlib.svg
     :target: https://badge.fury.io/py/lexlib
 
-.. image:: https://anaconda.org/cranndarach/lexlib/badges/version.svg
-    :target: https://anaconda.org/cranndarach/lexlib
-
 .. note:: This project is a work in progress. New functions may be added at
    any point. See `CHANGELOG.md`_ for important changes.
 
@@ -43,13 +40,6 @@ Using pip install
 ::
 
     pip3 install lexlib
-
-Using conda install
-"""""""""""""""""""
-
-::
-
-    conda install -c cranndarach lexlib
 
 From source
 """""""""""
