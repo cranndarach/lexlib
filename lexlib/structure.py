@@ -5,7 +5,7 @@ Functions related to the structure of words.
 """
 
 # module: structure
-# copyright: 2019 R. Steiner
+# copyright: 2016-2019 R. Steiner
 # license: MIT License
 
 import itertools as it
